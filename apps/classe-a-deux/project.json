@@ -1,25 +1,25 @@
 {
-  "name": "classe-adeux",
+  "name": "classe-a-deux",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "org",
-  "sourceRoot": "apps/classe-adeux/src",
+  "sourceRoot": "apps/classe-a-deux/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/classe-adeux",
-        "index": "apps/classe-adeux/src/index.html",
-        "main": "apps/classe-adeux/src/main.ts",
+        "outputPath": "dist/apps/classe-a-deux",
+        "index": "apps/classe-a-deux/src/index.html",
+        "main": "apps/classe-a-deux/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/classe-adeux/tsconfig.app.json",
+        "tsConfig": "apps/classe-a-deux/tsconfig.app.json",
         "assets": [
-          "apps/classe-adeux/src/favicon.ico",
-          "apps/classe-adeux/src/assets"
+          "apps/classe-a-deux/src/favicon.ico",
+          "apps/classe-a-deux/src/assets"
         ],
-        "styles": ["apps/classe-adeux/src/styles.scss"],
+        "styles": ["apps/classe-a-deux/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -53,10 +53,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "classe-adeux:build:production"
+          "browserTarget": "classe-a-deux:build:production"
         },
         "development": {
-          "browserTarget": "classe-adeux:build:development"
+          "browserTarget": "classe-a-deux:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -64,7 +64,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "classe-adeux:build"
+        "browserTarget": "classe-a-deux:build"
       }
     },
     "lint": {
@@ -72,8 +72,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "apps/classe-adeux/**/*.ts",
-          "apps/classe-adeux/**/*.html"
+          "apps/classe-a-deux/**/*.ts",
+          "apps/classe-a-deux/**/*.html"
         ]
       }
     },
@@ -81,7 +81,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/classe-adeux/jest.config.ts",
+        "jestConfig": "apps/classe-a-deux/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

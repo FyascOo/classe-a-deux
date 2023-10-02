@@ -10,5 +10,5 @@ import { NxWelcomeComponent } from './nx-welcome.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'classe-adeux';
+  title = 'classe-a-deux';
 }

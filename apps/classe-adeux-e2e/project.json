@@ -1,22 +1,22 @@
 {
-  "name": "classe-adeux-e2e",
+  "name": "classe-a-deux-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/classe-adeux-e2e/src",
+  "sourceRoot": "apps/classe-a-deux-e2e/src",
   "targets": {
     "e2e": {
       "executor": "@nx/playwright:playwright",
-      "outputs": ["{workspaceRoot}/dist/.playwright/apps/classe-adeux-e2e"],
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/classe-a-deux-e2e"],
       "options": {
-        "config": "apps/classe-adeux-e2e/playwright.config.ts"
+        "config": "apps/classe-a-deux-e2e/playwright.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/classe-adeux-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/classe-a-deux-e2e/**/*.{js,ts}"]
       }
     }
   },
-  "implicitDependencies": ["classe-adeux"]
+  "implicitDependencies": ["classe-a-deux"]
 }
