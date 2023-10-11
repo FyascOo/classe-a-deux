@@ -2,7 +2,7 @@
   "name": "multiplication",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "classe-a-deux",
+  "prefix": "multiplication",
   "sourceRoot": "apps/multiplication/src",
   "tags": [],
   "targets": {
