@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'classe-a-deux',
+  displayName: 'multiplication',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/classe-a-deux',
+  coverageDirectory: '../../coverage/apps/multiplication',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
