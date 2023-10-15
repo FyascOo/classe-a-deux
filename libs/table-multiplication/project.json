@@ -2,8 +2,8 @@
   "name": "table-multiplication",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/table-multiplication/src",
-  "prefix": "classe-a-deux",
-  "tags": [],
+  "prefix": "tm",
+  "tags": ["type:featured","scope:table-multiplication"],
   "projectType": "library",
   "targets": {
     "test": {

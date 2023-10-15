@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "multiplication",
   "sourceRoot": "apps/multiplication/src",
-  "tags": [],
+  "tags": ["type:app","scope:multiplication"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
