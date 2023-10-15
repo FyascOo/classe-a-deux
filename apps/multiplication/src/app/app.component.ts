@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '@classe-a-deux/shared-ui';
 
 @Component({
-  standalone: true,
-  imports: [RouterModule],
   selector: 'multiplication-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [RouterModule, HeaderComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+  <ui-header></ui-header>
+  <router-outlet></router-outlet>
+  `
 })
 export class AppComponent {
   title = 'multiplication';
