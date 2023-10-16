@@ -8,16 +8,13 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="relative m-3">
-      <label
-        for="reponse"
-        class="absolute ml-2 -translate-y-3 bg-white scale-75 px-2"
-      >
+      <label class="absolute ml-2 -translate-y-3 bg-white scale-75 px-2">
         Réponse
       </label>
       <input
         [formControl]="value"
         type="text"
-        id="reponse"
+        [formControl]="value"
         class="border border-black rounded-lg  w-full  p-2.5"
       />
     </div>
