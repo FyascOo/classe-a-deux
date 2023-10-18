@@ -1,40 +1,44 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   ButtonComponent,
   ContainerComponent,
   InputComponent,
 } from '@classe-a-deux/shared-ui';
-import { BehaviorSubject } from 'rxjs';
-import { TABLES } from './table-multiplication.constante';
+import { TableMultiplicationStore } from './table-multiplication.store';
 
 @Component({
   selector: 'tm-table-multiplication',
   standalone: true,
   imports: [CommonModule, ContainerComponent, InputComponent, ButtonComponent],
+  providers: [TableMultiplicationStore],
   template: `
     <ui-container (keyup.enter)="validate()">
-      <ng-container *ngFor="let table of tables; let i = index">
+      <ng-container *ngFor="let table of tables$ | async; let i = index">
         <ng-container *ngIf="i === (count$ | async)">
-          {{ table.question }} {{ result$ | async }} {{ indicateur }}
+          {{ table.question }} {{ result$ | async }} {{ indicateur$ | async }}
         </ng-container>
       </ng-container>
-      <ui-input (valueChanges)="result$.next($event)"></ui-input>
+      <ui-input
+        [reset]="(result$ | async)!"
+        (valueChanges)="resultChanges($event)"
+      ></ui-input>
       <ui-button (action)="validate()">Valider</ui-button>
     </ui-container>
   `,
 })
 export class TableMultiplicationComponent {
-  tables = TABLES;
-  result$ = new BehaviorSubject<string>('');
-  count$ = new BehaviorSubject(0);
-  indicateur = '';
+  #store = inject(TableMultiplicationStore);
+  tables$ = this.#store.tables$;
+  result$ = this.#store.result$;
+  count$ = this.#store.count$;
+  indicateur$ = this.#store.indicateur$;
+
+  resultChanges(result: string) {
+    this.#store.patchState({ result });
+  }
 
   validate() {
-    this.indicateur = 'pas ok';
-    if (TABLES[this.count$.value].result === +this.result$.value) {
-      this.indicateur = 'ok';
-      this.count$.next(this.count$.value + 1);
-    }
+    this.#store.validate();
   }
 }

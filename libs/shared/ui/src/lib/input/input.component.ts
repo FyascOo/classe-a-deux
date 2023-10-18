@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -22,6 +27,9 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent {
-  value = new FormControl();
+  @Input() set reset(value: string) {
+    this.value.patchValue(value);
+  }
+  value = new FormControl('', { nonNullable: true });
   @Output() valueChanges = this.value.valueChanges;
 }
