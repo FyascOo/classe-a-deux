@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -13,10 +13,12 @@ import { TableMultiplicationStore } from './table-multiplication.store';
   imports: [CommonModule, ContainerComponent, InputComponent, ButtonComponent],
   providers: [TableMultiplicationStore],
   template: `
+    {{ counter$ | async }}
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <ng-container *ngIf="i === (count$ | async)">
-          {{ table.question }} {{ result$ | async }} {{ indicateur$ | async }}
+          {{ table.question }} {{ result$ | async }}
+          {{ indicateur$ | async }}
         </ng-container>
       </ng-container>
       <ui-input
@@ -27,12 +29,16 @@ import { TableMultiplicationStore } from './table-multiplication.store';
     </ui-container>
   `,
 })
-export class TableMultiplicationComponent {
+export class TableMultiplicationComponent implements OnInit {
   #store = inject(TableMultiplicationStore);
   tables$ = this.#store.tables$;
   result$ = this.#store.result$;
   count$ = this.#store.count$;
   indicateur$ = this.#store.indicateur$;
+  counter$ = this.#store.counter$;
+  ngOnInit() {
+    this.#store.count();
+  }
 
   resultChanges(result: string) {
     this.#store.patchState({ result });

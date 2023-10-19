@@ -3,6 +3,8 @@ import { ComponentStore } from '@ngrx/component-store';
 import {
   combineLatest,
   debounceTime,
+  filter,
+  interval,
   map,
   repeat,
   switchMap,
@@ -16,6 +18,7 @@ export interface TableMultiplicationState {
   result: string;
   count: number;
   indicateur: string;
+  counter: number;
 }
 
 export const initialTableMultiplicationState: TableMultiplicationState = {
@@ -23,6 +26,7 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
   result: '',
   count: 0,
   indicateur: '',
+  counter: 5,
 };
 
 @Injectable()
@@ -31,6 +35,7 @@ export class TableMultiplicationStore extends ComponentStore<TableMultiplication
   readonly result$ = this.select((state) => state.result);
   readonly count$ = this.select((state) => state.count);
   readonly indicateur$ = this.select((state) => state.indicateur);
+  readonly counter$ = this.select((state) => state.counter);
 
   constructor() {
     super(initialTableMultiplicationState);
@@ -41,7 +46,7 @@ export class TableMultiplicationStore extends ComponentStore<TableMultiplication
     indicateur,
   }));
 
-  readonly validate = this.effect<void>((source$) =>
+  readonly validate: any = this.effect<void>((source$) =>
     source$.pipe(
       switchMap(() => combineLatest([this.tables$, this.result$, this.count$])),
       map(([tables, result, count]) => tables[count].result === +result),
@@ -50,6 +55,24 @@ export class TableMultiplicationStore extends ComponentStore<TableMultiplication
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
       tap(() => this.patchState({ result: '' })),
       tap(() => this.updateIndicateur('')),
+      tap(() => this.patchState({ counter: 5 })),
+      tap(() => this.count()),
+      take(1),
+      repeat()
+    )
+  );
+
+  readonly count = this.effect<void>((source$) =>
+    source$.pipe(
+      switchMap(() =>
+        interval(1000).pipe(
+          tap(() =>
+            this.patchState(({ counter }) => ({ counter: counter - 1 }))
+          ),
+          filter((index) => index === 4),
+          tap(() => this.validate())
+        )
+      ),
       take(1),
       repeat()
     )
