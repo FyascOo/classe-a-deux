@@ -7,3 +7,5 @@ export * from './lib/input/input.component';
 export * from './lib/button/button.component';
 
 export * from './lib/main/main.component';
+
+export * from './lib/footer/footer.component';
