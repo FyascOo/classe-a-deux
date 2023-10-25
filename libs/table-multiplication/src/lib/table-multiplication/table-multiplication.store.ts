@@ -17,15 +17,33 @@ export interface TableMultiplicationState {
   tables: Table[];
   result: string;
   count: number;
-  indicateur: string;
+  indicateur: Indicateur;
   counter: number;
 }
+
+export interface Indicateur {
+  icon: 'task_alt' | 'error' | '...';
+  color: 'text-green-700' | 'text-orange-900' | 'text-black';
+}
+
+export const indicateurValid: Indicateur = {
+  icon: 'task_alt',
+  color: 'text-green-700',
+};
+export const indicateurError: Indicateur = {
+  icon: 'error',
+  color: 'text-orange-900',
+};
+export const indicateurWaiting: Indicateur = {
+  icon: '...',
+  color: 'text-black',
+};
 
 export const initialTableMultiplicationState: TableMultiplicationState = {
   tables: TABLES,
   result: '',
   count: 0,
-  indicateur: '',
+  indicateur: indicateurWaiting,
   counter: 5,
 };
 
@@ -41,7 +59,7 @@ export class TableMultiplicationStore extends ComponentStore<TableMultiplication
     super(initialTableMultiplicationState);
   }
 
-  readonly updateIndicateur = this.updater((state, indicateur: string) => ({
+  readonly updateIndicateur = this.updater((state, indicateur: Indicateur) => ({
     ...state,
     indicateur,
   }));
@@ -50,11 +68,13 @@ export class TableMultiplicationStore extends ComponentStore<TableMultiplication
     source$.pipe(
       switchMap(() => combineLatest([this.tables$, this.result$, this.count$])),
       map(([tables, result, count]) => tables[count].result === +result),
-      tap((valid) => this.updateIndicateur(valid ? 'OK' : 'PAS OK')),
+      tap((valid) =>
+        this.updateIndicateur(valid ? indicateurValid : indicateurError)
+      ),
       debounceTime(1000),
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
       tap(() => this.patchState({ result: '' })),
-      tap(() => this.updateIndicateur('')),
+      tap(() => this.updateIndicateur(indicateurWaiting)),
       tap(() => this.patchState({ counter: 5 })),
       tap(() => this.count()),
       take(1),

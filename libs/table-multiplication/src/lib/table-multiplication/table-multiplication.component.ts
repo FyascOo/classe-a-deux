@@ -17,7 +17,14 @@ import { TableMultiplicationStore } from './table-multiplication.store';
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <ng-container *ngIf="i === (count$ | async)">
           {{ table.question }} {{ result$ | async }}
-          {{ indicateur$ | async }}
+          <span>{{ counter$ | async }}</span>
+          <span
+            *ngIf="indicateur$ | async as indicateur"
+            [ngClass]="indicateur.color"
+            class="material-symbols-outlined"
+          >
+            {{ indicateur.icon }}</span
+          >
         </ng-container>
       </ng-container>
       <ui-input
