@@ -13,7 +13,6 @@ import { TableMultiplicationStore } from './table-multiplication.store';
   imports: [CommonModule, ContainerComponent, InputComponent, ButtonComponent],
   providers: [TableMultiplicationStore],
   template: `
-    {{ counter$ | async }}
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <ng-container *ngIf="i === (count$ | async)">
@@ -36,6 +35,7 @@ export class TableMultiplicationComponent implements OnInit {
   count$ = this.#store.count$;
   indicateur$ = this.#store.indicateur$;
   counter$ = this.#store.counter$;
+
   ngOnInit() {
     this.#store.count();
   }
