@@ -45,6 +45,7 @@ export class TableMultiplicationComponent implements OnInit {
 
   ngOnInit() {
     this.#store.count();
+    this.#store.navigate();
   }
 
   resultChanges(result: string) {

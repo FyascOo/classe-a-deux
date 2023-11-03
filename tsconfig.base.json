@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@classe-a-deux/result": ["libs/result/src/index.ts"],
       "@classe-a-deux/shared-ui": ["libs/shared/ui/src/index.ts"],
       "@classe-a-deux/table-multiplication": [
         "libs/table-multiplication/src/index.ts"

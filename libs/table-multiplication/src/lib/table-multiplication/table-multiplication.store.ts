@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   combineLatest,
@@ -11,10 +12,10 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { TABLES, Table } from './table-multiplication.constante';
+import { Multiplication, TABLES } from './table-multiplication.constante';
 
 export interface TableMultiplicationState {
-  tables: Table[];
+  tables: Multiplication[];
   result: string;
   count: number;
   indicateur: Indicateur;
@@ -49,6 +50,7 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
 
 @Injectable()
 export class TableMultiplicationStore extends ComponentStore<TableMultiplicationState> {
+  #router = inject(Router);
   readonly tables$ = this.select((state) => state.tables);
   readonly result$ = this.select((state) => state.result);
   readonly count$ = this.select((state) => state.count);
@@ -95,6 +97,21 @@ export class TableMultiplicationStore extends ComponentStore<TableMultiplication
       ),
       take(1),
       repeat()
+    )
+  );
+
+  readonly navigate = this.effect<void>((source$) =>
+    source$.pipe(
+      switchMap(() =>
+        combineLatest([this.tables$, this.count$]).pipe(
+          tap(([tables, count]) => {
+            console.log(tables.length, count);
+            if (tables.length === count) {
+              this.#router.navigate(['result']);
+            }
+          })
+        )
+      )
     )
   );
 }
