@@ -4,6 +4,13 @@ export const appRoutes: Route[] = [
   {
     path: '',
     loadComponent: () =>
+      import('@classe-a-deux/home').then(
+        (c) => c.HomeComponent
+      ),
+  },
+  {
+    path: 'test',
+    loadComponent: () =>
       import('@classe-a-deux/table-multiplication').then(
         (c) => c.TableMultiplicationComponent
       ),
