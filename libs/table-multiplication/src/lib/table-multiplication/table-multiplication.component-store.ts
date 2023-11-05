@@ -49,7 +49,7 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
 };
 
 @Injectable()
-export class TableMultiplicationStore extends ComponentStore<TableMultiplicationState> {
+export class TableMultiplicationComponentStore extends ComponentStore<TableMultiplicationState> {
   #router = inject(Router);
   readonly tables$ = this.select((state) => state.tables);
   readonly result$ = this.select((state) => state.result);

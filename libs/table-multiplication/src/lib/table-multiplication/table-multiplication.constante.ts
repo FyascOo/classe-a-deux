@@ -525,7 +525,7 @@ export const TABLE10: Multiplication[] = [
   },
 ];
 
-export const TABLES = [
+export const TABLES = shuffle([
   ...TABLE1,
   ...TABLE2,
   ...TABLE3,
@@ -536,7 +536,7 @@ export const TABLES = [
   ...TABLE8,
   ...TABLE9,
   ...TABLE10,
-];
+]);
 
 function shuffle(array: Multiplication[]) {
   let currentIndex = array.length;

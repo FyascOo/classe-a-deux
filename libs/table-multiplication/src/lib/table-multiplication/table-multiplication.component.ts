@@ -5,13 +5,13 @@ import {
   ContainerComponent,
   InputComponent,
 } from '@classe-a-deux/shared-ui';
-import { TableMultiplicationStore } from './table-multiplication.store';
+import { TableMultiplicationComponentStore } from './table-multiplication.component-store';
 
 @Component({
   selector: 'tm-table-multiplication',
   standalone: true,
   imports: [CommonModule, ContainerComponent, InputComponent, ButtonComponent],
-  providers: [TableMultiplicationStore],
+  providers: [TableMultiplicationComponentStore],
   template: `
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
@@ -36,7 +36,7 @@ import { TableMultiplicationStore } from './table-multiplication.store';
   `,
 })
 export class TableMultiplicationComponent implements OnInit {
-  #store = inject(TableMultiplicationStore);
+  #store = inject(TableMultiplicationComponentStore);
   tables$ = this.#store.tables$;
   result$ = this.#store.result$;
   count$ = this.#store.count$;
