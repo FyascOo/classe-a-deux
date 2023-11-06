@@ -29,12 +29,11 @@
                 "onlyDependOnLibsWithTags": ["type:ui"]
               },
               {
-                "sourceTag": "scope:multiplication",
-                "onlyDependOnLibsWithTags": ["scope:table-multiplication","scope:shared"]
-              },
-              {
                 "sourceTag": "scope:table-multiplication",
-                "onlyDependOnLibsWithTags": ["scope:table-multiplication","scope:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:table-multiplication",
+                  "scope:shared"
+                ]
               },
               {
                 "sourceTag": "scope:shared",

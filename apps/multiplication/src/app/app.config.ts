@@ -3,17 +3,17 @@ import {
   provideRouter,
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
-import { appRoutes } from './app.routes';
-import { provideState, provideStore } from '@ngrx/store';
-import { provideEffects } from '@ngrx/effects';
 import { tableMultiplicationReducer } from '@classe-a-deux/table-multiplication';
+import { provideEffects } from '@ngrx/effects';
+import { provideState, provideStore } from '@ngrx/store';
+import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideEffects(),
     provideStore(),
     provideState({
-      name: 'table-multiplication',
+      name: 'tablesMultiplicationState',
       reducer: tableMultiplicationReducer,
     }),
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),

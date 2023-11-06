@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ContainerComponent } from '@classe-a-deux/shared-ui';
-import { Multiplication, TABLES } from '@classe-a-deux/table-multiplication';
+import {
+  Multiplication,
+  selectTables,
+} from '@classe-a-deux/table-multiplication';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'classe-a-deux-result',
@@ -10,7 +14,7 @@ import { Multiplication, TABLES } from '@classe-a-deux/table-multiplication';
   template: `<ui-container>
     <div class="flex flex-row w-full">
       <div class="flex flex-col flex-1">
-        <ng-container *ngFor="let table of tables; let i = index">
+        <ng-container *ngFor="let table of tables$ | async; let i = index">
           <span *ngIf="thirty(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
             {{ table.question }} {{ table.result }}
             {{ correct(table) ? 'O' : 'X' }}
@@ -18,7 +22,7 @@ import { Multiplication, TABLES } from '@classe-a-deux/table-multiplication';
         >
       </div>
       <div class="flex flex-col flex-1">
-        <ng-container *ngFor="let table of tables; let i = index">
+        <ng-container *ngFor="let table of tables$ | async; let i = index">
           <span *ngIf="sixty(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
             {{ table.question }} {{ table.result }}
             {{ correct(table) ? 'O' : 'X' }}
@@ -26,7 +30,7 @@ import { Multiplication, TABLES } from '@classe-a-deux/table-multiplication';
         >
       </div>
       <div class="flex flex-col flex-1">
-        <ng-container *ngFor="let table of tables; let i = index">
+        <ng-container *ngFor="let table of tables$ | async; let i = index">
           <span *ngIf="ninety(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
             {{ table.question }} {{ table.result }}
             {{ correct(table) ? 'O' : 'X' }}
@@ -49,7 +53,11 @@ import { Multiplication, TABLES } from '@classe-a-deux/table-multiplication';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultComponent {
-  tables = TABLES;
+  #store = inject(Store);
+  tables$ = this.#store.select(selectTables);
+  constructor() {
+    this.#store.select(selectTables).subscribe(console.log);
+  }
 
   correct(multiplication: Multiplication) {
     return multiplication.result === multiplication.answer;

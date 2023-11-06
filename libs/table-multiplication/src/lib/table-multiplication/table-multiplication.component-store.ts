@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
+import { Store } from '@ngrx/store';
 import {
   combineLatest,
   debounceTime,
@@ -12,11 +13,13 @@ import {
   take,
   tap,
 } from 'rxjs';
+import { tableChanges } from './table-multiplication.actions';
 import { Multiplication, TABLES } from './table-multiplication.constante';
+import { AppState } from './table-multiplication.selectors';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];
-  result: string;
+  answer: string;
   count: number;
   indicateur: Indicateur;
   counter: number;
@@ -42,7 +45,7 @@ export const indicateurWaiting: Indicateur = {
 
 export const initialTableMultiplicationState: TableMultiplicationState = {
   tables: TABLES,
-  result: '',
+  answer: '',
   count: 0,
   indicateur: indicateurWaiting,
   counter: 5,
@@ -51,8 +54,9 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
 @Injectable()
 export class TableMultiplicationComponentStore extends ComponentStore<TableMultiplicationState> {
   #router = inject(Router);
+  #store = inject(Store<AppState>);
   readonly tables$ = this.select((state) => state.tables);
-  readonly result$ = this.select((state) => state.result);
+  readonly answer$ = this.select((state) => state.answer);
   readonly count$ = this.select((state) => state.count);
   readonly indicateur$ = this.select((state) => state.indicateur);
   readonly counter$ = this.select((state) => state.counter);
@@ -68,14 +72,19 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
 
   readonly validate: any = this.effect<void>((source$) =>
     source$.pipe(
-      switchMap(() => combineLatest([this.tables$, this.result$, this.count$])),
-      map(([tables, result, count]) => tables[count].result === +result),
+      switchMap(() => combineLatest([this.tables$, this.answer$, this.count$])),
+      tap(([tables, answer, count]) =>
+        this.#store.dispatch(
+          tableChanges({ table: { ...tables[count], answer: +answer } })
+        )
+      ),
+      map(([tables, answer, count]) => tables[count].result === +answer),
       tap((valid) =>
         this.updateIndicateur(valid ? indicateurValid : indicateurError)
       ),
       debounceTime(1000),
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
-      tap(() => this.patchState({ result: '' })),
+      tap(() => this.patchState({ answer: '' })),
       tap(() => this.updateIndicateur(indicateurWaiting)),
       tap(() => this.patchState({ counter: 5 })),
       tap(() => this.count()),
@@ -105,8 +114,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
       switchMap(() =>
         combineLatest([this.tables$, this.count$]).pipe(
           tap(([tables, count]) => {
-            console.log(tables.length, count);
-            if (tables.length === count) {
+            if (1 === count) {
               this.#router.navigate(['result']);
             }
           })

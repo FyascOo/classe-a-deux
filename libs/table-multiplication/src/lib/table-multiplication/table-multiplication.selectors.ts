@@ -8,7 +8,7 @@ export interface AppState {
 export const selectTableMultiplication = (state: AppState) =>
   state.tablesMultiplicationState;
 
-export const selectTable = createSelector(
+export const selectTables = createSelector(
   selectTableMultiplication,
   (state: TableMultiplicationState) => state.tables
 );

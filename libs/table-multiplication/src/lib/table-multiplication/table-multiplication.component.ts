@@ -5,7 +5,9 @@ import {
   ContainerComponent,
   InputComponent,
 } from '@classe-a-deux/shared-ui';
+import { Store } from '@ngrx/store';
 import { TableMultiplicationComponentStore } from './table-multiplication.component-store';
+import { selectTables } from './table-multiplication.selectors';
 
 @Component({
   selector: 'tm-table-multiplication',
@@ -16,7 +18,7 @@ import { TableMultiplicationComponentStore } from './table-multiplication.compon
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <ng-container *ngIf="i === (count$ | async)">
-          {{ table.question }} {{ result$ | async }}
+          {{ table.question }} {{ answer$ | async }}
           <span>{{ counter$ | async }}</span>
           <span
             *ngIf="indicateur$ | async as indicateur"
@@ -28,31 +30,33 @@ import { TableMultiplicationComponentStore } from './table-multiplication.compon
         </ng-container>
       </ng-container>
       <ui-input
-        [reset]="(result$ | async)!"
-        (valueChanges)="resultChanges($event)"
+        [reset]="(answer$ | async)!"
+        (valueChanges)="answerChanges($event)"
       ></ui-input>
       <ui-button (action)="validate()">Valider</ui-button>
     </ui-container>
   `,
 })
 export class TableMultiplicationComponent implements OnInit {
-  #store = inject(TableMultiplicationComponentStore);
-  tables$ = this.#store.tables$;
-  result$ = this.#store.result$;
-  count$ = this.#store.count$;
-  indicateur$ = this.#store.indicateur$;
-  counter$ = this.#store.counter$;
+  #storeComponent = inject(TableMultiplicationComponentStore);
+  #store = inject(Store);
+  tables$ = this.#storeComponent.tables$;
+  answer$ = this.#storeComponent.answer$;
+  count$ = this.#storeComponent.count$;
+  indicateur$ = this.#storeComponent.indicateur$;
+  counter$ = this.#storeComponent.counter$;
 
   ngOnInit() {
-    this.#store.count();
-    this.#store.navigate();
+    this.#storeComponent.count();
+    this.#storeComponent.navigate();
+    this.#store.select(selectTables).subscribe(console.log);
   }
 
-  resultChanges(result: string) {
-    this.#store.patchState({ result });
+  answerChanges(answer: string) {
+    this.#storeComponent.patchState({ answer });
   }
 
   validate() {
-    this.#store.validate();
+    this.#storeComponent.validate();
   }
 }

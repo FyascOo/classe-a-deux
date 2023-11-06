@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { Multiplication, TABLES } from './table-multiplication.constante';
 import { tableChanges } from './table-multiplication.actions';
+import { Multiplication, TABLES } from './table-multiplication.constante';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];
@@ -12,5 +12,10 @@ export const init: TableMultiplicationState = {
 
 export const tableMultiplicationReducer = createReducer(
   init,
-  on(tableChanges, (state, { answer }) => ({ ...state, tables: state.tables }))
+  on(tableChanges, (state, { table }) => ({
+    ...state,
+    tables: state.tables.map((t) =>
+      t.id === table.id ? { ...t, answer: table.answer } : t
+    ),
+  }))
 );
