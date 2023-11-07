@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -7,7 +7,6 @@ import {
 } from '@classe-a-deux/shared-ui';
 import { Store } from '@ngrx/store';
 import { TableMultiplicationComponentStore } from './table-multiplication.component-store';
-import { selectTables } from './table-multiplication.selectors';
 
 @Component({
   selector: 'tm-table-multiplication',
@@ -37,7 +36,7 @@ import { selectTables } from './table-multiplication.selectors';
     </ui-container>
   `,
 })
-export class TableMultiplicationComponent implements OnInit {
+export class TableMultiplicationComponent {
   #storeComponent = inject(TableMultiplicationComponentStore);
   #store = inject(Store);
   tables$ = this.#storeComponent.tables$;
@@ -45,12 +44,6 @@ export class TableMultiplicationComponent implements OnInit {
   count$ = this.#storeComponent.count$;
   indicateur$ = this.#storeComponent.indicateur$;
   counter$ = this.#storeComponent.counter$;
-
-  ngOnInit() {
-    this.#storeComponent.count();
-    this.#storeComponent.navigate();
-    this.#store.select(selectTables).subscribe(console.log);
-  }
 
   answerChanges(answer: string) {
     this.#storeComponent.patchState({ answer });

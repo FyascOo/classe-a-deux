@@ -63,6 +63,8 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
 
   constructor() {
     super(initialTableMultiplicationState);
+    this.counter();
+    this.navigate();
   }
 
   readonly updateIndicateur = this.updater((state, indicateur: Indicateur) => ({
@@ -78,22 +80,23 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
           tableChanges({ table: { ...tables[count], answer: +answer } })
         )
       ),
-      map(([tables, answer, count]) => tables[count].result === +answer),
+      map(([tables, answer, count]) => tables[count]?.result === +answer),
       tap((valid) =>
         this.updateIndicateur(valid ? indicateurValid : indicateurError)
       ),
       debounceTime(1000),
+
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
       tap(() => this.patchState({ answer: '' })),
       tap(() => this.updateIndicateur(indicateurWaiting)),
       tap(() => this.patchState({ counter: 5 })),
-      tap(() => this.count()),
+      tap(() => this.counter()),
       take(1),
       repeat()
     )
   );
 
-  readonly count = this.effect<void>((source$) =>
+  readonly counter = this.effect<void>((source$) =>
     source$.pipe(
       switchMap(() =>
         interval(1000).pipe(
@@ -114,7 +117,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
       switchMap(() =>
         combineLatest([this.tables$, this.count$]).pipe(
           tap(([tables, count]) => {
-            if (1 === count) {
+            if (tables.length === count) {
               this.#router.navigate(['result']);
             }
           })

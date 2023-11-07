@@ -6,6 +6,7 @@ import {
   selectTables,
 } from '@classe-a-deux/table-multiplication';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'classe-a-deux-result',
@@ -54,10 +55,9 @@ import { Store } from '@ngrx/store';
 })
 export class ResultComponent {
   #store = inject(Store);
-  tables$ = this.#store.select(selectTables);
-  constructor() {
-    this.#store.select(selectTables).subscribe(console.log);
-  }
+  tables$ = this.#store
+    .select(selectTables)
+    .pipe(map((tables) => [...tables].sort((a, b) => (a.id > b.id ? 1 : -1))));
 
   correct(multiplication: Multiplication) {
     return multiplication.result === multiplication.answer;
