@@ -1,21 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ContainerComponent } from '@classe-a-deux/shared-ui';
+import { ButtonComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
 import {
   Multiplication,
   selectTables,
 } from '@classe-a-deux/table-multiplication';
 import { Store } from '@ngrx/store';
+import { jsPDF } from 'jspdf';
 import { map } from 'rxjs';
 
 @Component({
   selector: 'classe-a-deux-result',
   standalone: true,
-  imports: [CommonModule, ContainerComponent],
-  template: `<ui-container>
-    <div class="flex flex-row w-full">
+  imports: [CommonModule, ContainerComponent, ButtonComponent],
+  template: `<ui-container *ngIf="tables$ | async as tables">
+    <ui-button class="mb-5" (action)="save(container)"
+      ><span class="material-symbols-outlined"> download </span></ui-button
+    >
+    <div #container class="flex flex-row w-full">
       <div class="flex flex-col flex-1">
-        <ng-container *ngFor="let table of tables$ | async; let i = index">
+        <ng-container *ngFor="let table of tables; let i = index">
           <span *ngIf="thirty(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
             {{ table.question }} {{ table.result }}
             {{ correct(table) ? 'O' : 'X' }}
@@ -23,7 +27,7 @@ import { map } from 'rxjs';
         >
       </div>
       <div class="flex flex-col flex-1">
-        <ng-container *ngFor="let table of tables$ | async; let i = index">
+        <ng-container *ngFor="let table of tables; let i = index">
           <span *ngIf="sixty(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
             {{ table.question }} {{ table.result }}
             {{ correct(table) ? 'O' : 'X' }}
@@ -31,7 +35,7 @@ import { map } from 'rxjs';
         >
       </div>
       <div class="flex flex-col flex-1">
-        <ng-container *ngFor="let table of tables$ | async; let i = index">
+        <ng-container *ngFor="let table of tables; let i = index">
           <span *ngIf="ninety(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
             {{ table.question }} {{ table.result }}
             {{ correct(table) ? 'O' : 'X' }}
@@ -55,9 +59,14 @@ import { map } from 'rxjs';
 })
 export class ResultComponent {
   #store = inject(Store);
+  doc = new jsPDF('p', 'pt', 'a3');
   tables$ = this.#store
     .select(selectTables)
     .pipe(map((tables) => [...tables].sort((a, b) => (a.id > b.id ? 1 : -1))));
+
+  save(container: HTMLElement) {
+    this.doc.html(container, { callback: () => this.doc.save('test.pdf') });
+  }
 
   correct(multiplication: Multiplication) {
     return multiplication.result === multiplication.answer;
