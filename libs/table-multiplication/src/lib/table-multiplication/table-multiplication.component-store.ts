@@ -26,7 +26,7 @@ export interface TableMultiplicationState {
 }
 
 export interface Indicateur {
-  icon: 'task_alt' | 'error' | '...';
+  icon: 'task_alt' | 'error' | '';
   color: 'text-green-700' | 'text-orange-900' | 'text-black';
 }
 
@@ -39,7 +39,7 @@ export const indicateurError: Indicateur = {
   color: 'text-orange-900',
 };
 export const indicateurWaiting: Indicateur = {
-  icon: '...',
+  icon: '',
   color: 'text-black',
 };
 

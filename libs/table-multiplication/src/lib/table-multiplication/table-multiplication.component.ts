@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  ButtonCircleComponent,
   ButtonComponent,
   ContainerComponent,
   InputComponent,
@@ -18,27 +19,35 @@ import { TableMultiplicationComponentStore } from './table-multiplication.compon
     InputComponent,
     ButtonComponent,
     ProgressBarComponent,
+    ButtonCircleComponent,
   ],
   providers: [TableMultiplicationComponentStore],
   template: `
     <ui-progress-bar [progress]="(progress$ | async)!"></ui-progress-bar>
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
-        <ng-container *ngIf="i === (count$ | async)">
-          {{ table.question }} {{ answer$ | async }}
+        <div class="flex items-center" *ngIf="i === (count$ | async)">
+          <span>{{ table.question }} {{ answer$ | async }}</span>
           <span
             *ngIf="indicateur$ | async as indicateur"
             [ngClass]="indicateur.color"
-            class="material-symbols-outlined"
+            class="material-symbols-outlined ml-5"
           >
             {{ indicateur.icon }}</span
           >
-        </ng-container>
+        </div>
       </ng-container>
       <ui-input
         [reset]="(answer$ | async)!"
         (valueChanges)="answerChanges($event)"
       ></ui-input>
+      <div class="flex">
+        <ui-button-circle
+          *ngFor="let value of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
+          (emitValue)="addAnswer(value)"
+          >{{ value }}</ui-button-circle
+        >
+      </div>
       <ui-button (action)="validate()">Valider</ui-button>
     </ui-container>
   `,
@@ -54,6 +63,12 @@ export class TableMultiplicationComponent {
 
   answerChanges(answer: string) {
     this.#storeComponent.patchState({ answer });
+  }
+
+  addAnswer(a: number) {
+    this.#storeComponent.patchState(({ answer }) => ({
+      answer: `${answer}${a}`,
+    }));
   }
 
   validate() {
