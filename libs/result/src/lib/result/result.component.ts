@@ -65,7 +65,7 @@ export class ResultComponent {
     .pipe(map((tables) => [...tables].sort((a, b) => (a.id > b.id ? 1 : -1))));
 
   save(container: HTMLElement) {
-    this.doc.html(container, { callback: () => this.doc.save('test.pdf') });
+    this.doc.html(container, { callback: () => this.doc.save('resultat.pdf') });
   }
 
   correct(multiplication: Multiplication) {

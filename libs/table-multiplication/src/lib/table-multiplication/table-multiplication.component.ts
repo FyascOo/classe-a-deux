@@ -4,6 +4,7 @@ import {
   ButtonComponent,
   ContainerComponent,
   InputComponent,
+  ProgressBarComponent,
 } from '@classe-a-deux/shared-ui';
 import { Store } from '@ngrx/store';
 import { TableMultiplicationComponentStore } from './table-multiplication.component-store';
@@ -11,14 +12,20 @@ import { TableMultiplicationComponentStore } from './table-multiplication.compon
 @Component({
   selector: 'tm-table-multiplication',
   standalone: true,
-  imports: [CommonModule, ContainerComponent, InputComponent, ButtonComponent],
+  imports: [
+    CommonModule,
+    ContainerComponent,
+    InputComponent,
+    ButtonComponent,
+    ProgressBarComponent,
+  ],
   providers: [TableMultiplicationComponentStore],
   template: `
+    <ui-progress-bar [progress]="(progress$ | async)!"></ui-progress-bar>
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <ng-container *ngIf="i === (count$ | async)">
           {{ table.question }} {{ answer$ | async }}
-          <span>{{ counter$ | async }}</span>
           <span
             *ngIf="indicateur$ | async as indicateur"
             [ngClass]="indicateur.color"
@@ -43,7 +50,7 @@ export class TableMultiplicationComponent {
   answer$ = this.#storeComponent.answer$;
   count$ = this.#storeComponent.count$;
   indicateur$ = this.#storeComponent.indicateur$;
-  counter$ = this.#storeComponent.counter$;
+  progress$ = this.#storeComponent.progress$;
 
   answerChanges(answer: string) {
     this.#storeComponent.patchState({ answer });

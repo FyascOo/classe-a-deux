@@ -22,7 +22,7 @@ export interface TableMultiplicationState {
   answer: string;
   count: number;
   indicateur: Indicateur;
-  counter: number;
+  progress: number;
 }
 
 export interface Indicateur {
@@ -48,7 +48,7 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
   answer: '',
   count: 0,
   indicateur: indicateurWaiting,
-  counter: 5,
+  progress: 100,
 };
 
 @Injectable()
@@ -59,11 +59,11 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
   readonly answer$ = this.select((state) => state.answer);
   readonly count$ = this.select((state) => state.count);
   readonly indicateur$ = this.select((state) => state.indicateur);
-  readonly counter$ = this.select((state) => state.counter);
+  readonly progress$ = this.select((state) => state.progress);
 
   constructor() {
     super(initialTableMultiplicationState);
-    this.counter();
+    this.progress();
     this.navigate();
   }
 
@@ -85,25 +85,26 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
         this.updateIndicateur(valid ? indicateurValid : indicateurError)
       ),
       debounceTime(1000),
-
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
       tap(() => this.patchState({ answer: '' })),
       tap(() => this.updateIndicateur(indicateurWaiting)),
-      tap(() => this.patchState({ counter: 5 })),
-      tap(() => this.counter()),
+      tap(() => this.patchState({ progress: 100 })),
+      tap(() => this.progress()),
       take(1),
       repeat()
     )
   );
 
-  readonly counter = this.effect<void>((source$) =>
+  readonly progress = this.effect<void>((source$) =>
     source$.pipe(
       switchMap(() =>
-        interval(1000).pipe(
+        interval(25).pipe(
           tap(() =>
-            this.patchState(({ counter }) => ({ counter: counter - 1 }))
+            this.patchState(({ progress }) => ({
+              progress: progress - 0.5,
+            }))
           ),
-          filter((index) => index === 4),
+          filter((interval) => interval === 200),
           tap(() => this.validate())
         )
       ),
