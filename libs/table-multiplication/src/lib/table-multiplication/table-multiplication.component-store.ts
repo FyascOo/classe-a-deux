@@ -84,7 +84,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
       tap((valid) =>
         this.updateIndicateur(valid ? indicateurValid : indicateurError)
       ),
-      debounceTime(1000),
+      debounceTime(2000),
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
       tap(() => this.patchState({ answer: '' })),
       tap(() => this.updateIndicateur(indicateurWaiting)),

@@ -27,7 +27,14 @@ import { TableMultiplicationComponentStore } from './table-multiplication.compon
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <div class="flex items-center" *ngIf="i === (count$ | async)">
-          <span>{{ table.question }} {{ answer$ | async }}</span>
+          <span *ngIf="(indicateur$ | async)?.icon === ''"
+            >{{ table.question }} {{ answer$ | async }}</span
+          >
+          <span
+            *ngIf="(indicateur$ | async)?.icon !== ''"
+            [ngClass]="(indicateur$ | async)?.color"
+            >{{ table.question }} {{ table.result }}</span
+          >
           <span
             *ngIf="indicateur$ | async as indicateur"
             [ngClass]="indicateur.color"
@@ -48,7 +55,7 @@ import { TableMultiplicationComponentStore } from './table-multiplication.compon
           >{{ value }}</ui-button-circle
         >
       </div>
-      <ui-button (action)="validate()">Valider</ui-button>
+      <ui-button class="mt-2" (action)="validate()">Valider</ui-button>
     </ui-container>
   `,
 })
