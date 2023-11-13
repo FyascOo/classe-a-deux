@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ui-header',
@@ -10,7 +11,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <header
       class="flex w-full items-center justify-between bg-white py-2 shadow-lg"
     >
-      <img class="h-12 w-12" src="assets/favicon.png" alt="Classe-a-deux" />
+      <img
+        (click)="home()"
+        class="h-12 w-12"
+        src="assets/favicon.png"
+        alt="Classe-a-deux"
+      />
 
       <span><ng-content></ng-content></span>
       <div class="flex flex-row">
@@ -24,4 +30,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     </header>
   `,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  #router = inject(Router);
+  home() {
+    this.#router.navigate(['/']);
+  }
+}

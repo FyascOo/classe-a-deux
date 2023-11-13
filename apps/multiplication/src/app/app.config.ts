@@ -3,7 +3,7 @@ import {
   provideRouter,
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
-import { tableMultiplicationReducer } from '@classe-a-deux/table-multiplication';
+import { tableMultiplicationReducer } from '@classe-a-deux/test';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
 import { appRoutes } from './app.routes';

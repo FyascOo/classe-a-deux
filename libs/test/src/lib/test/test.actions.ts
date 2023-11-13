@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Multiplication } from './table-multiplication.constante';
+import { Multiplication } from './test.constante';
 
 export const tableChanges = createAction(
   '[Table multiplication test] Answer multiplication',

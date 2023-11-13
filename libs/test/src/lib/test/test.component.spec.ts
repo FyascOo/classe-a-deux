@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TableMultiplicationComponent } from './table-multiplication.component';
+import { TableMultiplicationComponent } from './test.component';
 
 describe('TableMultiplicationComponent', () => {
   let component: TableMultiplicationComponent;

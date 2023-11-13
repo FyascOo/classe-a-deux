@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { TableMultiplicationState } from './table-multiplication.reducers';
+import { TableMultiplicationState } from './test.reducers';
 
 export interface AppState {
   tablesMultiplicationState: TableMultiplicationState;

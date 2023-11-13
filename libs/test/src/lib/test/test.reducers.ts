@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
-import { tableChanges } from './table-multiplication.actions';
-import { Multiplication, TABLES } from './table-multiplication.constante';
+
+import { tableChanges } from './test.actions';
+import { Multiplication, TABLES } from './test.constante';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];

@@ -8,7 +8,7 @@ import {
   ProgressBarComponent,
 } from '@classe-a-deux/shared-ui';
 import { Store } from '@ngrx/store';
-import { TableMultiplicationComponentStore } from './table-multiplication.component-store';
+import { TableMultiplicationComponentStore } from './test.component-store';
 
 @Component({
   selector: 'tm-table-multiplication',

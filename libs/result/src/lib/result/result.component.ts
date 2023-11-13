@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
-import {
-  Multiplication,
-  selectTables,
-} from '@classe-a-deux/table-multiplication';
+import { Multiplication, selectTables } from '@classe-a-deux/test';
 import { Store } from '@ngrx/store';
 import { jsPDF } from 'jspdf';
 import { map } from 'rxjs';

@@ -13,9 +13,9 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { tableChanges } from './table-multiplication.actions';
-import { Multiplication, TABLES } from './table-multiplication.constante';
-import { AppState } from './table-multiplication.selectors';
+import { tableChanges } from './test.actions';
+import { Multiplication, TABLES } from './test.constante';
+import { AppState } from './test.selectors';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];

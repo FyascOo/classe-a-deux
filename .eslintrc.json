@@ -27,17 +27,6 @@
               {
                 "sourceTag": "type:ui",
                 "onlyDependOnLibsWithTags": ["type:ui"]
-              },
-              {
-                "sourceTag": "scope:table-multiplication",
-                "onlyDependOnLibsWithTags": [
-                  "scope:table-multiplication",
-                  "scope:shared"
-                ]
-              },
-              {
-                "sourceTag": "scope:shared",
-                "onlyDependOnLibsWithTags": ["scope:shared"]
               }
             ]
           }
