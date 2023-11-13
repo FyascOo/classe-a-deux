@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     >
       <img class="h-12 w-12" src="assets/favicon.png" alt="Classe-a-deux" />
 
-      <span> ,,Test ,,table ,,de ,,multiplication </span>
+      <span><ng-content></ng-content></span>
       <div class="flex flex-row">
         <img
           class="h-12 w-12 mr-1"

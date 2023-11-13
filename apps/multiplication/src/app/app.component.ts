@@ -12,7 +12,7 @@ import {
   imports: [RouterModule, HeaderComponent, MainComponent, FooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ui-header></ui-header>
+    <ui-header>,,Test ,,table ,,de ,,multiplication</ui-header>
     <ui-main><router-outlet></router-outlet></ui-main>
     <ui-footer></ui-footer>
   `,
