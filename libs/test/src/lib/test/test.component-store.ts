@@ -11,6 +11,7 @@ import {
   repeat,
   switchMap,
   take,
+  takeUntil,
   tap,
 } from 'rxjs';
 import { tableChanges } from './test.actions';
@@ -22,7 +23,8 @@ export interface TableMultiplicationState {
   answer: string;
   count: number;
   indicateur: Indicateur;
-  progress: number;
+  progressCounter: number;
+  progressTest: number;
 }
 
 export interface Indicateur {
@@ -48,7 +50,8 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
   answer: '',
   count: 0,
   indicateur: indicateurWaiting,
-  progress: 100,
+  progressCounter: 100,
+  progressTest: 0,
 };
 
 @Injectable()
@@ -59,7 +62,8 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
   readonly answer$ = this.select((state) => state.answer);
   readonly count$ = this.select((state) => state.count);
   readonly indicateur$ = this.select((state) => state.indicateur);
-  readonly progress$ = this.select((state) => state.progress);
+  readonly progressCounter$ = this.select((state) => state.progressCounter);
+  readonly progressTest$ = this.select((state) => state.progressTest);
 
   constructor() {
     super(initialTableMultiplicationState);
@@ -80,6 +84,11 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
           tableChanges({ table: { ...tables[count], answer: +answer } })
         )
       ),
+      tap(([tables, answer, count]) =>
+        this.patchState(({ progressTest }) => ({
+          progressTest: progressTest + 100 / (tables.length * 2),
+        }))
+      ),
       map(([tables, answer, count]) => tables[count]?.result === +answer),
       tap((valid) =>
         this.updateIndicateur(valid ? indicateurValid : indicateurError)
@@ -88,7 +97,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
       tap(() => this.patchState({ answer: '' })),
       tap(() => this.updateIndicateur(indicateurWaiting)),
-      tap(() => this.patchState({ progress: 100 })),
+      tap(() => this.patchState({ progressCounter: 100 })),
       tap(() => this.progress()),
       take(1),
       repeat()
@@ -100,8 +109,8 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
       switchMap(() =>
         interval(25).pipe(
           tap(() =>
-            this.patchState(({ progress }) => ({
-              progress: progress - 0.5,
+            this.patchState(({ progressCounter }) => ({
+              progressCounter: progressCounter - 0.5,
             }))
           ),
           filter((interval) => interval === 200),

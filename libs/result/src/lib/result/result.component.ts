@@ -18,67 +18,83 @@ import { map } from 'rxjs';
       <div class="flex flex-row justify-between w-full">
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t2(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t2(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t3(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t3(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t4(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t4(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t5(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t5(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>
       </div>
-      <div class="flex flex-row justify-between w-full">
+      <div class="flex flex-row justify-between w-full mt-5">
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t6(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t6(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t7(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t7(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t8(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t8(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
-            <span *ngIf="t9(i)" [ngClass]="tenth(i) ? 'mb-2' : null">
-              {{ table.question }} {{ table.result }}
-              {{ correct(table) ? 'O' : 'X' }}
+            <span
+              *ngIf="t9(i)"
+              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
+            >
+              {{ table.question }} {{ table.answer }}
             </span></ng-container
           >
         </div>

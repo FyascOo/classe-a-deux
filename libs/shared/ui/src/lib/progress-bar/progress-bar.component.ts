@@ -6,14 +6,16 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   template: `<div class="w-full bg-gray-200 rounded-full h-2.5">
-    <div
-      class="bg-blue-600 h-2.5 rounded-full"
-      [style]="{ width: progress + '%' }"
-    ></div>
+    <div [class]="getColor()" [style]="{ width: progress + '%' }"></div>
   </div> `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressBarComponent {
   @Input() progress = 100;
+  @Input() color!: boolean;
+
+  getColor() {
+    return `${this.color ? 'bg-blue-700' : 'bg-green-700'} h-2.5 rounded-full`;
+  }
 }

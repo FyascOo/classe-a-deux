@@ -23,7 +23,10 @@ import { TableMultiplicationComponentStore } from './test.component-store';
   ],
   providers: [TableMultiplicationComponentStore],
   template: `
-    <ui-progress-bar [progress]="(progress$ | async)!"></ui-progress-bar>
+    <ui-progress-bar
+      [progress]="(progressCounter$ | async)!"
+      [color]="true"
+    ></ui-progress-bar>
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <div class="flex items-center" *ngIf="i === (count$ | async)">
@@ -57,6 +60,7 @@ import { TableMultiplicationComponentStore } from './test.component-store';
       </div>
       <ui-button class="mt-2" (action)="validate()">Valider</ui-button>
     </ui-container>
+    <ui-progress-bar [progress]="(progressTest$ | async)!"></ui-progress-bar>
   `,
 })
 export class TableMultiplicationComponent {
@@ -66,7 +70,8 @@ export class TableMultiplicationComponent {
   answer$ = this.#storeComponent.answer$;
   count$ = this.#storeComponent.count$;
   indicateur$ = this.#storeComponent.indicateur$;
-  progress$ = this.#storeComponent.progress$;
+  progressCounter$ = this.#storeComponent.progressCounter$;
+  progressTest$ = this.#storeComponent.progressTest$;
 
   answerChanges(answer: string) {
     this.#storeComponent.patchState({ answer });
