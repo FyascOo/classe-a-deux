@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'table-multiplication',
+  displayName: 'test',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/libs/table-multiplication',
+  coverageDirectory: '../../coverage/libs/test',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

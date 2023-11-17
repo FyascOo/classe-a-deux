@@ -14,13 +14,13 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   template: `
     <div class="relative m-3">
       <label class="absolute ml-2 -translate-y-3 bg-white scale-75 px-2">
-        Réponse
+        <ng-content></ng-content>
       </label>
       <input
         [formControl]="value"
         type="text"
         [formControl]="value"
-        class="border border-black rounded-lg  w-full  p-2.5"
+        class="border border-black rounded-lg  w-full  p-2"
       />
     </div>
   `,

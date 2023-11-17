@@ -12,3 +12,8 @@ export const selectTables = createSelector(
   selectTableMultiplication,
   (state: TableMultiplicationState) => state.tables
 );
+
+export const selectNom = createSelector(
+  selectTableMultiplication,
+  (state: TableMultiplicationState) => state.nom
+);

@@ -1,16 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ButtonComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
-import { Multiplication, selectTables } from '@classe-a-deux/test';
+import {
+  ButtonComponent,
+  ContainerComponent,
+  InputComponent,
+} from '@classe-a-deux/shared-ui';
+import { Multiplication, selectNom, selectTables } from '@classe-a-deux/test';
 import { Store } from '@ngrx/store';
 import { jsPDF } from 'jspdf';
+import { nomChanges } from 'libs/test/src/lib/test/test.actions';
 import { map } from 'rxjs';
 
 @Component({
   selector: 'classe-a-deux-result',
   standalone: true,
-  imports: [CommonModule, ContainerComponent, ButtonComponent],
+  imports: [CommonModule, ContainerComponent, ButtonComponent, InputComponent],
   template: `<ui-container *ngIf="tables$ | async as tables">
+    <ui-input (valueChanges)="nomChanges($event)">Nom - Prénom</ui-input>
+    {{ nom$ | async }}
     <ui-button class="mb-5" (action)="save(container)"
       ><span class="material-symbols-outlined"> download </span></ui-button
     >
@@ -120,7 +127,11 @@ export class ResultComponent {
   tables$ = this.#store
     .select(selectTables)
     .pipe(map((tables) => [...tables].sort((a, b) => (a.id > b.id ? 1 : -1))));
+  nom$ = this.#store.select(selectNom);
 
+  nomChanges(nom: string) {
+    this.#store.dispatch(nomChanges({ nom }));
+  }
   save(container: HTMLElement) {
     this.doc.html(container, { callback: () => this.doc.save('resultat.pdf') });
   }

@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { TableMultiplicationComponentStore } from './test.component-store';
 
 @Component({
-  selector: 'tm-table-multiplication',
+  selector: 'tm-test',
   standalone: true,
   imports: [
     CommonModule,
@@ -50,7 +50,8 @@ import { TableMultiplicationComponentStore } from './test.component-store';
       <ui-input
         [reset]="(answer$ | async)!"
         (valueChanges)="answerChanges($event)"
-      ></ui-input>
+        >Réponse</ui-input
+      >
       <div class="flex">
         <ui-button-circle
           *ngFor="let value of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"

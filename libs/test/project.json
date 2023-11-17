@@ -1,16 +1,16 @@
 {
-  "name": "table-multiplication",
+  "name": "test",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/table-multiplication/src",
+  "sourceRoot": "libs/test/src",
   "prefix": "tm",
-  "tags": ["type:feature", "scope:table-multiplication"],
+  "tags": ["type:feature", "scope:test"],
   "projectType": "library",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/table-multiplication/jest.config.ts",
+        "jestConfig": "libs/test/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -24,10 +24,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/table-multiplication/**/*.ts",
-          "libs/table-multiplication/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/test/**/*.ts", "libs/test/**/*.html"]
       }
     }
   }

@@ -5,3 +5,5 @@ export const tableChanges = createAction(
   '[Table multiplication test] Answer multiplication',
   props<{ table: Multiplication }>()
 );
+
+export const nomChanges = createAction('[Nom] Nom changes', props<{nom: string}>())
