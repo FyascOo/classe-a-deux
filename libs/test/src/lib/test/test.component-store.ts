@@ -84,7 +84,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
           tableChanges({ table: { ...tables[count], answer: +answer } })
         )
       ),
-      tap(([_, tables, answer, count]) =>
+      tap(([_, tables]) =>
         this.patchState(({ progressTest }) => ({
           progressTest: progressTest + 100 / tables.length,
         }))
