@@ -11,8 +11,8 @@ import {
   repeat,
   switchMap,
   take,
-  takeUntil,
   tap,
+  withLatestFrom,
 } from 'rxjs';
 import { tableChanges } from './test.actions';
 import { Multiplication, TABLES } from './test.constante';
@@ -78,18 +78,18 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
 
   readonly validate: any = this.effect<void>((source$) =>
     source$.pipe(
-      switchMap(() => combineLatest([this.tables$, this.answer$, this.count$])),
-      tap(([tables, answer, count]) =>
+      withLatestFrom(this.tables$, this.answer$, this.count$),
+      tap(([_, tables, answer, count]) =>
         this.#store.dispatch(
           tableChanges({ table: { ...tables[count], answer: +answer } })
         )
       ),
-      tap(([tables, answer, count]) =>
+      tap(([_, tables, answer, count]) =>
         this.patchState(({ progressTest }) => ({
-          progressTest: progressTest + 100 / (tables.length * 2),
+          progressTest: progressTest + 100 / tables.length,
         }))
       ),
-      map(([tables, answer, count]) => tables[count]?.result === +answer),
+      map(([_, tables, answer, count]) => tables[count]?.result === +answer),
       tap((valid) =>
         this.updateIndicateur(valid ? indicateurValid : indicateurError)
       ),
@@ -110,7 +110,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
         interval(25).pipe(
           tap(() =>
             this.patchState(({ progressCounter }) => ({
-              progressCounter: progressCounter - 0.5,
+              progressCounter: progressCounter - 1,
             }))
           ),
           filter((interval) => interval === 200),
