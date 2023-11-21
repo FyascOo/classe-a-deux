@@ -15,7 +15,7 @@ import {
     <button
       type="button"
       class="m-1 border border-black hover:bg-[#6ba0a5] hover:border-[#6ba0a5] hover:text-white focus:ring-4 focus:outline-none focus:ring-[#6ba0a5] font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center"
-      (click)="emitValue.emit()"
+      (click)="action.emit()"
     >
       <ng-content></ng-content>
     </button>
@@ -24,5 +24,5 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonCircleComponent {
-  @Output() emitValue = new EventEmitter();
+  @Output() action = new EventEmitter();
 }

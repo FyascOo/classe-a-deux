@@ -56,7 +56,7 @@ import { TableMultiplicationComponentStore } from './test.component-store';
       <div class="flex flex-wrap">
         <ui-button-circle
           *ngFor="let value of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
-          (emitValue)="addAnswer(value)"
+          (action)="addAnswer(value)"
           >{{ value }}</ui-button-circle
         >
       </div>
