@@ -110,7 +110,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
         interval(25).pipe(
           tap(() =>
             this.patchState(({ progressCounter }) => ({
-              progressCounter: progressCounter - 1,
+              progressCounter: progressCounter - 0.5,
             }))
           ),
           filter((interval) => interval === 200),

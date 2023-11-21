@@ -29,19 +29,20 @@ import { TableMultiplicationComponentStore } from './test.component-store';
     ></ui-progress-bar>
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
-        <div class="flex items-center" *ngIf="i === (count$ | async)">
+        <div class="flex items-center text-5xl" *ngIf="i === (count$ | async)">
           <span *ngIf="(indicateur$ | async)?.icon === ''"
             >{{ table.question }} {{ answer$ | async }}</span
           >
           <span
             *ngIf="(indicateur$ | async)?.icon !== ''"
+            class="text-5xl"
             [ngClass]="(indicateur$ | async)?.color"
             >{{ table.question }} {{ table.result }}</span
           >
           <span
             *ngIf="indicateur$ | async as indicateur"
             [ngClass]="indicateur.color"
-            class="material-symbols-outlined ml-5"
+            class="material-symbols-outlined ml-5 text-4xl"
           >
             {{ indicateur.icon }}</span
           >
