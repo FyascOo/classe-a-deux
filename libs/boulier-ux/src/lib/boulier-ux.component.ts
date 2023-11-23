@@ -22,12 +22,21 @@ interface Boule {
         <ui-button-circle
           *ngFor="let x of [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]"
           (action)="selectedBoule.next({x,y})"
+          [style]="{
+            backgroundColor: x > 5 ? 'red-800' : 'blue-800',
+            hover: '#6ba0a5',
+            focus: x > 5 ? 'red-300' : 'blue-300'
+          }"
+          class="z-20"
           [ngClass]="
             isSelected({x,y})
               ? 'ml-auto'
               : null
           "
         ></ui-button-circle>
+        <div
+          class="absolute translate-y-3 w-[96%] h-1 bg-slate-800 opacity-50 z-10"
+        ></div>
       </div>
     </ui-container>
   `,
