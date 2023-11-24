@@ -23,9 +23,11 @@ interface Boule {
           *ngFor="let x of [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]"
           (action)="selectedBoule.next({x,y})"
           [style]="{
-            backgroundColor: x > 5 ? 'red-800' : 'blue-800',
-            hover: '#6ba0a5',
-            focus: x > 5 ? 'red-300' : 'blue-300'
+            backgroundColor: x > 5 ? 'bg-red-800' : 'bg-blue-800',
+            hover: x > 5 ? 'hover:bg-red-800' : 'hover:bg-blue-800',
+            hoverBorder:
+              x > 5 ? 'hover:border-red-300' : 'hover:border-blue-300',
+            focus: x > 5 ? 'focus:ring-red-300' : 'focus:ring-blue-300'
           }"
           class="z-20"
           [ngClass]="

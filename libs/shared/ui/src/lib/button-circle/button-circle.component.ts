@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 export interface StyleCircle {
   hover?: string;
+  hoverBorder?: string;
   hoverText?: string;
   focus?: string;
   backgroundColor?: string;
@@ -32,15 +33,16 @@ export interface StyleCircle {
 export class ButtonCircleComponent {
   @Input() set style({
     hover,
+    hoverBorder,
     hoverText,
     focus,
     backgroundColor,
   }: StyleCircle) {
-    this._style = `hover:bg-${hover ?? '[#6ba0a5]'} hover:border-${
-      hover ?? '[#6ba0a5]'
-    } hover:${hoverText ?? 'text-white'} focus:ring-${
-      focus ?? '[#6ba0a5]'
-    } bg-${backgroundColor ?? 'white'}`;
+    this._style = `${hover ?? '[hover:bg-[#6ba0a5]'} ${
+      hoverBorder ?? 'hover:border-[#6ba0a5]'
+    } ${hoverText ?? 'hover:text-white'} ${focus ?? 'focus:ring-[#6ba0a5]'} ${
+      backgroundColor ?? 'bg-white'
+    }`;
   }
   @Output() action = new EventEmitter();
   _style =
