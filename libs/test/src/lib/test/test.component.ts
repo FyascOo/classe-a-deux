@@ -7,7 +7,7 @@ import {
   InputComponent,
   ProgressBarComponent,
 } from '@classe-a-deux/shared-ui';
-import { Store } from '@ngrx/store';
+import { take } from 'rxjs';
 import { TableMultiplicationComponentStore } from './test.component-store';
 
 @Component({
@@ -67,13 +67,13 @@ import { TableMultiplicationComponentStore } from './test.component-store';
 })
 export class TableMultiplicationComponent {
   #storeComponent = inject(TableMultiplicationComponentStore);
-  #store = inject(Store);
   tables$ = this.#storeComponent.tables$;
   answer$ = this.#storeComponent.answer$;
   count$ = this.#storeComponent.count$;
   indicateur$ = this.#storeComponent.indicateur$;
   progressCounter$ = this.#storeComponent.progressCounter$;
   progressTest$ = this.#storeComponent.progressTest$;
+  disabledValidate$ = this.#storeComponent.disabledValidate$;
 
   answerChanges(answer: string) {
     this.#storeComponent.patchState({ answer });
@@ -86,6 +86,10 @@ export class TableMultiplicationComponent {
   }
 
   validate() {
-    this.#storeComponent.validate();
+    this.disabledValidate$.pipe(take(1)).subscribe((disabled) => {
+      if (!disabled) {
+        this.#storeComponent.validate();
+      }
+    });
   }
 }

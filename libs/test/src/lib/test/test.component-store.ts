@@ -25,6 +25,7 @@ export interface TableMultiplicationState {
   indicateur: Indicateur;
   progressCounter: number;
   progressTest: number;
+  disabledValidate: boolean;
 }
 
 export interface Indicateur {
@@ -52,6 +53,7 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
   indicateur: indicateurWaiting,
   progressCounter: 100,
   progressTest: 0,
+  disabledValidate: false,
 };
 
 @Injectable()
@@ -64,6 +66,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
   readonly indicateur$ = this.select((state) => state.indicateur);
   readonly progressCounter$ = this.select((state) => state.progressCounter);
   readonly progressTest$ = this.select((state) => state.progressTest);
+  readonly disabledValidate$ = this.select((state) => state.disabledValidate);
 
   constructor() {
     super(initialTableMultiplicationState);
@@ -78,6 +81,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
 
   readonly validate: any = this.effect<void>((source$) =>
     source$.pipe(
+      tap(() => this.patchState(() => ({ disabledValidate: true }))),
       withLatestFrom(this.tables$, this.answer$, this.count$),
       tap(([_, tables, answer, count]) =>
         this.#store.dispatch(
@@ -98,6 +102,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
       tap(() => this.patchState({ answer: '' })),
       tap(() => this.updateIndicateur(indicateurWaiting)),
       tap(() => this.patchState({ progressCounter: 100 })),
+      tap(() => this.patchState(() => ({ disabledValidate: false }))),
       tap(() => this.progress()),
       take(1),
       repeat()

@@ -5,23 +5,28 @@ import {
   ContainerComponent,
   InputComponent,
 } from '@classe-a-deux/shared-ui';
-import { Multiplication, selectNom, selectTables } from '@classe-a-deux/test';
+import {
+  Multiplication,
+  nomChanges,
+  selectNom,
+  selectTables,
+} from '@classe-a-deux/test';
 import { Store } from '@ngrx/store';
 import { jsPDF } from 'jspdf';
-import { nomChanges } from 'libs/test/src/lib/test/test.actions';
-import { map } from 'rxjs';
+import { combineLatest, map, take } from 'rxjs';
 
 @Component({
   selector: 'classe-a-deux-result',
   standalone: true,
   imports: [CommonModule, ContainerComponent, ButtonComponent, InputComponent],
   template: `<ui-container *ngIf="tables$ | async as tables">
-    <ui-input (valueChanges)="nomChanges($event)">Nom - Prénom</ui-input>
-    {{ nom$ | async }}
-    <ui-button class="mb-5" (action)="save(container)"
-      ><span class="material-symbols-outlined"> download </span></ui-button
-    >
-    <div #container class="w-full">
+    <div class="flex items-center mb-5">
+      <ui-input (valueChanges)="nomChanges($event)">Nom - Prénom</ui-input>
+      <ui-button (action)="save()"
+        ><span class="material-symbols-outlined"> download </span></ui-button
+      >
+    </div>
+    <div class="w-full">
       <div class="flex flex-row justify-between w-full">
         <div class="flex flex-col">
           <ng-container *ngFor="let table of tables; let i = index">
@@ -123,7 +128,7 @@ import { map } from 'rxjs';
 })
 export class ResultComponent {
   #store = inject(Store);
-  doc = new jsPDF('l', 'pt', 'a2');
+  doc = new jsPDF('p', 'pt', 'a4');
   tables$ = this.#store
     .select(selectTables)
     .pipe(map((tables) => [...tables].sort((a, b) => (a.id > b.id ? 1 : -1))));
@@ -132,8 +137,81 @@ export class ResultComponent {
   nomChanges(nom: string) {
     this.#store.dispatch(nomChanges({ nom }));
   }
-  save(container: HTMLElement) {
-    this.doc.html(container, { callback: () => this.doc.save('resultat.pdf') });
+  save() {
+    combineLatest([this.tables$, this.nom$])
+      .pipe(take(1))
+      .subscribe(([tables, nom]) => {
+        this.doc.setTextColor('#000000');
+        this.doc.text(nom, 250, 25);
+
+        tables.forEach((table, i) => {
+          if (this.correct(table)) {
+            this.doc.setTextColor('#038f13');
+          } else {
+            this.doc.setTextColor('#9c0606');
+          }
+          if (i <= 9) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              100,
+              25 * (i + 2)
+            );
+          }
+          if (i > 9 && i <= 19) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              100,
+              25 * (i + 3)
+            );
+          }
+          if (i > 19 && i <= 29) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              100,
+              25 * (i + 4)
+            );
+          }
+          if (i > 29 && i <= 39) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              250,
+              25 * (i - 28)
+            );
+          }
+
+          if (i > 39 && i <= 49) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              250,
+              25 * (i - 27)
+            );
+          }
+
+          if (i > 49 && i <= 59) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              250,
+              25 * (i - 26)
+            );
+          }
+
+          if (i > 59 && i <= 69) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              400,
+              25 * (i - 58)
+            );
+          }
+          if (i > 69) {
+            this.doc.text(
+              `${table.question} ${table.answer}`,
+              400,
+              25 * (i - 57)
+            );
+          }
+        });
+        this.doc.save('resultat.pdf');
+      });
   }
 
   correct(multiplication: Multiplication) {

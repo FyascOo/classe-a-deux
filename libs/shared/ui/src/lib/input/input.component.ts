@@ -20,7 +20,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
         [formControl]="value"
         type="text"
         [formControl]="value"
-        class="border border-black rounded-lg  w-full  p-2"
+        class="border border-black rounded-lg  w-full  p-2 font-sans"
       />
     </div>
   `,
