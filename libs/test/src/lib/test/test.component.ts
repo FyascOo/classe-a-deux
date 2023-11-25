@@ -29,20 +29,23 @@ import { TableMultiplicationComponentStore } from './test.component-store';
     ></ui-progress-bar>
     <ui-container (keyup.enter)="validate()">
       <ng-container *ngFor="let table of tables$ | async; let i = index">
-        <div class="flex items-center text-5xl" *ngIf="i === (count$ | async)">
+        <div
+          class="flex items-center md:text-5xl text-2xl"
+          *ngIf="i === (count$ | async)"
+        >
           <span *ngIf="(indicateur$ | async)?.icon === ''"
             >{{ table.question }} {{ answer$ | async }}</span
           >
           <span
             *ngIf="(indicateur$ | async)?.icon !== ''"
-            class="text-5xl"
+            class="md:text-5xl text-2xl"
             [ngClass]="(indicateur$ | async)?.color"
             >{{ table.question }} {{ table.result }}</span
           >
           <span
             *ngIf="indicateur$ | async as indicateur"
             [ngClass]="indicateur.color"
-            class="material-symbols-outlined ml-5 text-4xl"
+            class="material-symbols-outlined ml-5 md:text-4xl text-2xl"
           >
             {{ indicateur.icon }}</span
           >
@@ -58,6 +61,11 @@ import { TableMultiplicationComponentStore } from './test.component-store';
           *ngFor="let value of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
           (action)="addAnswer(value)"
           >{{ value }}</ui-button-circle
+        >
+        <ui-button-circle
+          class="material-symbols-outlined"
+          (action)="removeAnswer()"
+          >delete</ui-button-circle
         >
       </div>
       <ui-button class="mt-2" (action)="validate()">Valider</ui-button>
@@ -83,6 +91,12 @@ export class TableMultiplicationComponent {
     this.#storeComponent.patchState(({ answer }) => ({
       answer: `${answer}${a}`,
     }));
+  }
+
+  removeAnswer() {
+    this.#storeComponent.patchState({
+      answer: '',
+    });
   }
 
   validate() {

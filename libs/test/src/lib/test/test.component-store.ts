@@ -7,7 +7,6 @@ import {
   debounceTime,
   filter,
   interval,
-  map,
   repeat,
   switchMap,
   take,
@@ -81,28 +80,29 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
 
   readonly validate: any = this.effect<void>((source$) =>
     source$.pipe(
-      tap(() => this.patchState(() => ({ disabledValidate: true }))),
       withLatestFrom(this.tables$, this.answer$, this.count$),
+      tap(() => this.patchState({ disabledValidate: true })),
       tap(([_, tables, answer, count]) =>
         this.#store.dispatch(
           tableChanges({ table: { ...tables[count], answer: +answer } })
         )
       ),
+      tap(([_, tables, answer, count]) =>
+        this.updateIndicateur(
+          tables[count]?.result === +answer ? indicateurValid : indicateurError
+        )
+      ),
+      debounceTime(2000),
       tap(([_, tables]) =>
         this.patchState(({ progressTest }) => ({
           progressTest: progressTest + 100 / tables.length,
         }))
       ),
-      map(([_, tables, answer, count]) => tables[count]?.result === +answer),
-      tap((valid) =>
-        this.updateIndicateur(valid ? indicateurValid : indicateurError)
-      ),
-      debounceTime(2000),
       tap(() => this.patchState(({ count }) => ({ count: count + 1 }))),
       tap(() => this.patchState({ answer: '' })),
       tap(() => this.updateIndicateur(indicateurWaiting)),
       tap(() => this.patchState({ progressCounter: 100 })),
-      tap(() => this.patchState(() => ({ disabledValidate: false }))),
+      tap(() => this.patchState({ disabledValidate: false })),
       tap(() => this.progress()),
       take(1),
       repeat()
