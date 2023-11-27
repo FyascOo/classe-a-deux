@@ -50,10 +50,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "boulier:build:production"
+          "buildTarget": "boulier:build:production"
         },
         "development": {
-          "browserTarget": "boulier:build:development"
+          "buildTarget": "boulier:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -61,11 +61,11 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "boulier:build"
+        "buildTarget": "boulier:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/boulier/**/*.ts", "apps/boulier/**/*.html"]
@@ -75,14 +75,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/boulier/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "apps/boulier/jest.config.ts"
       }
     }
   }
