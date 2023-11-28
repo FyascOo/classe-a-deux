@@ -152,28 +152,36 @@ export class ResultComponent {
           }
           if (i <= 9) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
-              100,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
+              50,
               25 * (i + 2)
             );
           }
           if (i > 9 && i <= 19) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
-              100,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
+              50,
               25 * (i + 3)
             );
           }
           if (i > 19 && i <= 29) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
-              100,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
+              50,
               25 * (i + 4)
             );
           }
           if (i > 29 && i <= 39) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
               250,
               25 * (i - 28)
             );
@@ -181,7 +189,9 @@ export class ResultComponent {
 
           if (i > 39 && i <= 49) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
               250,
               25 * (i - 27)
             );
@@ -189,7 +199,9 @@ export class ResultComponent {
 
           if (i > 49 && i <= 59) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
               250,
               25 * (i - 26)
             );
@@ -197,20 +209,24 @@ export class ResultComponent {
 
           if (i > 59 && i <= 69) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
-              400,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
+              450,
               25 * (i - 58)
             );
           }
           if (i > 69) {
             this.doc.text(
-              `${table.question} ${table.answer}`,
-              400,
+              `${table.question} ${table.answer} ${
+                this.correct(table) ? '' : 'x'
+              }`,
+              450,
               25 * (i - 57)
             );
           }
         });
-        this.doc.save('resultat.pdf');
+        this.doc.save(`${nom}.pdf`);
       });
   }
 
