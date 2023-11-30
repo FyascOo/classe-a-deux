@@ -5,9 +5,11 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'ui-progress-bar',
   standalone: true,
   imports: [CommonModule],
-  template: `<div class="w-full bg-gray-200 rounded-full h-2.5">
-    <div [class]="getColor()" [style]="{ width: progress + '%' }"></div>
-  </div> `,
+  template: `
+    <div class="w-full bg-gray-200 rounded-full h-2.5">
+      <div [class]="getColor()" [style]="{ width: progress + '%' }"></div>
+    </div>
+  `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

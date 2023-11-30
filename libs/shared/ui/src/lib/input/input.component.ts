@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -16,12 +11,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
       <label class="absolute ml-2 -translate-y-3 bg-white scale-75 px-2">
         <ng-content></ng-content>
       </label>
-      <input
-        [formControl]="value"
-        type="text"
-        [formControl]="value"
-        class="border border-black rounded-lg  w-full  p-2 font-sans"
-      />
+      <input [formControl]="value" type="text" [formControl]="value" class="border border-black rounded-lg  w-full  p-2 font-sans" />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

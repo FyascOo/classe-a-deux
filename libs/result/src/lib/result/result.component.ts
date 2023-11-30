@@ -1,16 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  ButtonComponent,
-  ContainerComponent,
-  InputComponent,
-} from '@classe-a-deux/shared-ui';
-import {
-  Multiplication,
-  nomChanges,
-  selectNom,
-  selectTables,
-} from '@classe-a-deux/test';
+import { ButtonComponent, ContainerComponent, InputComponent } from '@classe-a-deux/shared-ui';
+import { Multiplication, nomChanges, selectNom, selectTables } from '@classe-a-deux/test';
 import { Store } from '@ngrx/store';
 import { jsPDF } from 'jspdf';
 import { combineLatest, map, take } from 'rxjs';
@@ -19,100 +10,78 @@ import { combineLatest, map, take } from 'rxjs';
   selector: 'classe-a-deux-result',
   standalone: true,
   imports: [CommonModule, ContainerComponent, ButtonComponent, InputComponent],
-  template: `<ui-container *ngIf="tables$ | async as tables">
-    <div class="flex items-center mb-5">
-      <ui-input (valueChanges)="nomChanges($event)">Nom - Prénom</ui-input>
-      <ui-button (action)="save()"
-        ><span class="material-symbols-outlined"> download </span></ui-button
-      >
-    </div>
-    <div class="w-full">
-      <div class="flex flex-row justify-between w-full">
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t2(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
+  template: `
+    <ui-container *ngIf="tables$ | async as tables">
+      <div class="flex items-center mb-5">
+        <ui-input (valueChanges)="nomChanges($event)">Nom - Prénom</ui-input>
+        <ui-button (action)="save()">
+          <span class="material-symbols-outlined">download</span>
+        </ui-button>
+      </div>
+      <div class="w-full">
+        <div class="flex flex-row justify-between w-full">
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t2(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t3(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t4(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t5(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
         </div>
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t3(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
-        </div>
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t4(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
-        </div>
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t5(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
+        <div class="flex flex-row justify-between w-full mt-5">
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t6(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t7(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t8(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <ng-container *ngFor="let table of tables; let i = index">
+              <span *ngIf="t9(i)" [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'">
+                {{ table.question }} {{ table.answer }}
+              </span>
+            </ng-container>
+          </div>
         </div>
       </div>
-      <div class="flex flex-row justify-between w-full mt-5">
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t6(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
-        </div>
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t7(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
-        </div>
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t8(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
-        </div>
-        <div class="flex flex-col">
-          <ng-container *ngFor="let table of tables; let i = index">
-            <span
-              *ngIf="t9(i)"
-              [ngClass]="correct(table) ? 'text-green-700' : 'text-orange-900'"
-            >
-              {{ table.question }} {{ table.answer }}
-            </span></ng-container
-          >
-        </div>
-      </div>
-    </div>
-  </ui-container>`,
+    </ui-container>
+  `,
   styles: [
     `
       .flex-1 {
@@ -129,9 +98,7 @@ import { combineLatest, map, take } from 'rxjs';
 export class ResultComponent {
   #store = inject(Store);
   doc = new jsPDF('p', 'pt', 'a4');
-  tables$ = this.#store
-    .select(selectTables)
-    .pipe(map((tables) => [...tables].sort((a, b) => (a.id > b.id ? 1 : -1))));
+  tables$ = this.#store.select(selectTables).pipe(map(tables => [...tables].sort((a, b) => (a.id > b.id ? 1 : -1))));
   nom$ = this.#store.select(selectNom);
 
   nomChanges(nom: string) {
@@ -151,79 +118,31 @@ export class ResultComponent {
             this.doc.setTextColor('#9c0606');
           }
           if (i <= 9) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              50,
-              25 * (i + 2)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 50, 25 * (i + 2));
           }
           if (i > 9 && i <= 19) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              50,
-              25 * (i + 3)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 50, 25 * (i + 3));
           }
           if (i > 19 && i <= 29) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              50,
-              25 * (i + 4)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 50, 25 * (i + 4));
           }
           if (i > 29 && i <= 39) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              250,
-              25 * (i - 28)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 250, 25 * (i - 28));
           }
 
           if (i > 39 && i <= 49) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              250,
-              25 * (i - 27)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 250, 25 * (i - 27));
           }
 
           if (i > 49 && i <= 59) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              250,
-              25 * (i - 26)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 250, 25 * (i - 26));
           }
 
           if (i > 59 && i <= 69) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              450,
-              25 * (i - 58)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 450, 25 * (i - 58));
           }
           if (i > 69) {
-            this.doc.text(
-              `${table.question} ${table.answer} ${
-                this.correct(table) ? '' : 'x'
-              }`,
-              450,
-              25 * (i - 57)
-            );
+            this.doc.text(`${table.question} ${table.answer} ${this.correct(table) ? '' : 'x'}`, 450, 25 * (i - 57));
           }
         });
         this.doc.save(`${nom}.pdf`);

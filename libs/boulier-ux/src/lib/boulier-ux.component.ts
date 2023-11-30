@@ -17,8 +17,7 @@ interface Boule {
     <ui-container>
       <div
         *ngFor="let y of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-        class="flex w-full"
-      >
+        class="flex w-full">
         <ui-button-circle
           *ngFor="let x of [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]"
           (action)="selectedBoule.next({x,y})"
@@ -34,11 +33,9 @@ interface Boule {
             isSelected({x,y})
               ? 'ml-auto'
               : null
-          "
-        ></ui-button-circle>
+          "></ui-button-circle>
         <div
-          class="absolute translate-y-3 w-[96%] h-1 bg-slate-800 opacity-50 z-10"
-        ></div>
+          class="absolute translate-y-3 w-[96%] h-1 bg-slate-800 opacity-50 z-10"></div>
       </div>
     </ui-container>
   `,

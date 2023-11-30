@@ -9,9 +9,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <div class="bg-[#587c7f] h-0.5 w-[300px]"></div>
     <p class="mt-5">
       Ce site est créé par Classe-à-deux - Police
-      <a href="https://www.jeanboyault.fr/belle-allure/" target="_blank"
-        >jeanboyault.fr</a
-      >
+      <a href="https://www.jeanboyault.fr/belle-allure/" target="_blank">jeanboyault.fr</a>
     </p>
   `,
   styles: [
