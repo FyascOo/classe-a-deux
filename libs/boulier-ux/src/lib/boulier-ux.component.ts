@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  ButtonCircleComponent,
-  ContainerComponent,
-} from '@classe-a-deux/shared-ui';
+import { ButtonCircleComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
 import { BehaviorSubject } from 'rxjs';
 interface Boule {
   x: number;
@@ -15,18 +12,17 @@ interface Boule {
   imports: [CommonModule, ContainerComponent, ButtonCircleComponent],
   template: `
     <ui-container>
-      <div
-        *ngFor="let y of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-        class="flex w-full">
+      <div *ngFor="let y of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" class="flex w-full">
         <ui-button-circle
           *ngFor="let x of [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]"
           (action)="selectedBoule.next({x,y})"
           [style]="{
-            backgroundColor: x > 5 ? 'bg-red-800' : 'bg-blue-800',
-            hover: x > 5 ? 'hover:bg-red-800' : 'hover:bg-blue-800',
-            hoverBorder:
-              x > 5 ? 'hover:border-red-300' : 'hover:border-blue-300',
-            focus: x > 5 ? 'focus:ring-red-300' : 'focus:ring-blue-300'
+            backgroundColor: (y <= 5 && x <= 5) || (y > 5 && x > 5) ? 'bg-red-800' : 'bg-blue-800',
+            hover: (y <= 5 && x <= 5) || (y > 5 && x > 5) ? 'hover:bg-red-800' : 'hover:bg-blue-800',
+            hoverBorder: (y <= 5 && x <= 5) || (y > 5 && x > 5) ? 'hover:border-red-300' : 'hover:border-blue-300',
+            focus: (y <= 5 && x <= 5) || (y > 5 && x > 5) ? 'focus:ring-red-300' : 'focus:ring-blue-300',
+            margin: 'm-1.5',
+            scale: 'scale-150'
           }"
           class="z-20"
           [ngClass]="
@@ -34,8 +30,7 @@ interface Boule {
               ? 'ml-auto'
               : null
           "></ui-button-circle>
-        <div
-          class="absolute translate-y-3 w-[96%] h-1 bg-slate-800 opacity-50 z-10"></div>
+        <div class="absolute translate-y-3.5 w-[95%] h-1 bg-slate-800 opacity-50 z-10"></div>
       </div>
     </ui-container>
   `,
@@ -47,7 +42,7 @@ export class BoulierUXComponent {
   selectedBoule = new BehaviorSubject<Boule | null>(null);
 
   constructor() {
-    this.selectedBoule.subscribe((boule) => {
+    this.selectedBoule.subscribe(boule => {
       // Quand le tableau est vide on ajoute la boule séléctionné
       if (this.selectedBoules.length === 0 && boule !== null) {
         this.selectedBoules = [boule];
@@ -78,8 +73,6 @@ export class BoulierUXComponent {
   }
 
   isSelected({ x, y }: { x: number; y: number }) {
-    return this.selectedBoules.some(
-      (coordonne) => coordonne.x === x && coordonne.y === y
-    );
+    return this.selectedBoules.some(coordonne => coordonne.x === x && coordonne.y === y);
   }
 }
