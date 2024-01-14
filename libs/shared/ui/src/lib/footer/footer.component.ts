@@ -8,7 +8,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <div class="bg-[#587c7f] h-0.5 w-[300px]"></div>
     <p class="mt-5">
-      Ce site est créé par Classe-à-deux - Police
+      Outil créé par
+      <a href="https://alan.choufa.fr/" target="_blank">Alan Choufa</a>
+      pour
+      <a href="https://classeadeux.fr" target="_blank">classeadeux.fr</a>
+      - Police :
       <a href="https://www.jeanboyault.fr/belle-allure/" target="_blank">jeanboyault.fr</a>
     </p>
   `,

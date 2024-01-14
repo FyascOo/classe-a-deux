@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  FooterComponent,
-  HeaderComponent,
-  MainComponent,
-} from '@classe-a-deux/shared-ui';
+import { FooterComponent, HeaderComponent, MainComponent } from '@classe-a-deux/shared-ui';
 
 @Component({
   selector: 'multiplication-root',
@@ -12,7 +8,7 @@ import {
   imports: [RouterModule, HeaderComponent, MainComponent, FooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ui-header>,,Test ,,table ,,de ,,multiplication</ui-header>
+    <ui-header>,,Test ,,tables ,,de ,,multiplication</ui-header>
     <ui-main><router-outlet></router-outlet></ui-main>
     <ui-footer></ui-footer>
   `,

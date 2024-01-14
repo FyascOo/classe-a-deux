@@ -15,7 +15,6 @@ import { TableMultiplicationComponentStore } from './test.component-store';
       <ng-container *ngFor="let table of tables$ | async; let i = index">
         <div class="flex items-center md:text-5xl text-2xl" *ngIf="i === (count$ | async)">
           <span *ngIf="(indicateur$ | async)?.icon === ''">{{ table.question }} {{ answer$ | async }}</span>
-          tets
           <span *ngIf="(indicateur$ | async)?.icon !== ''" class="md:text-5xl text-2xl" [ngClass]="(indicateur$ | async)?.color">
             {{ table.question }} {{ table.result }}
           </span>
