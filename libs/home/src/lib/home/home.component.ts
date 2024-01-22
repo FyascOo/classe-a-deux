@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
@@ -6,7 +5,7 @@ import { ButtonComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
 @Component({
   selector: 'classe-a-deux-home',
   standalone: true,
-  imports: [CommonModule, ContainerComponent, ButtonComponent],
+  imports: [ContainerComponent, ButtonComponent],
   template: `
     <ui-container>
       <p>Nous allons tester tes connaissances des tables de multiplication</p>
@@ -22,6 +21,6 @@ import { ButtonComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
 export class HomeComponent {
   #router = inject(Router);
   navigate() {
-    this.#router.navigate(['test']);
+    this.#router.navigate(['/test']);
   }
 }

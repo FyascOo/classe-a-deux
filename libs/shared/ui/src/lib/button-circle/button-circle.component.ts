@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 export interface StyleCircle {
   hover?: string;
@@ -12,7 +12,7 @@ export interface StyleCircle {
 @Component({
   selector: 'ui-button-circle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass],
   template: `
     <button
       type="button"

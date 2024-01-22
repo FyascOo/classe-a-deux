@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ButtonCircleComponent, ContainerComponent } from '@classe-a-deux/shared-ui';
 import { BehaviorSubject } from 'rxjs';
@@ -9,12 +9,13 @@ interface Boule {
 @Component({
   selector: 'classe-a-deux-boulier-ux',
   standalone: true,
-  imports: [CommonModule, ContainerComponent, ButtonCircleComponent],
+  imports: [NgFor, NgClass, ContainerComponent, ButtonCircleComponent],
   template: `
     <ui-container>
-      <div *ngFor="let y of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" class="flex w-full">
+      @for (y of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+      <div class="flex w-full">
+        @for ( x of [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]; track $index) {
         <ui-button-circle
-          *ngFor="let x of [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]"
           (action)="selectedBoule.next({x,y})"
           [style]="{
             backgroundColor: (y <= 5 && x <= 5) || (y > 5 && x > 5) ? 'bg-red-800' : 'bg-blue-800',
@@ -30,8 +31,11 @@ interface Boule {
               ? 'ml-auto'
               : null
           "></ui-button-circle>
+        }
+
         <div class="absolute translate-y-3.5 w-[95%] h-1 bg-slate-800 opacity-50 z-10"></div>
       </div>
+      }
     </ui-container>
   `,
   styles: [],

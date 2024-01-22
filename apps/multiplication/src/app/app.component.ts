@@ -9,8 +9,8 @@ import { FooterComponent, HeaderComponent, MainComponent } from '@classe-a-deux/
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ui-header>,,Test ,,tables ,,de ,,multiplication</ui-header>
-    <ui-main><router-outlet></router-outlet></ui-main>
-    <ui-footer></ui-footer>
+    <ui-main><router-outlet /></ui-main>
+    <ui-footer />
   `,
   styles: [
     `

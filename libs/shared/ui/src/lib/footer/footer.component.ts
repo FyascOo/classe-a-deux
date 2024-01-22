@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'ui-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="bg-[#587c7f] h-0.5 w-[300px]"></div>
     <p class="mt-5">

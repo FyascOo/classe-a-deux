@@ -2,20 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import {
-  combineLatest,
-  debounceTime,
-  filter,
-  interval,
-  repeat,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
-import { tableChanges } from './test.actions';
+import { combineLatest, debounceTime, filter, interval, repeat, switchMap, take, tap, withLatestFrom } from 'rxjs';
 import { Multiplication, TABLES } from './test.constante';
-import { AppState } from './test.selectors';
+import { tableChanges } from './test.store';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];
@@ -58,14 +47,14 @@ export const initialTableMultiplicationState: TableMultiplicationState = {
 @Injectable()
 export class TableMultiplicationComponentStore extends ComponentStore<TableMultiplicationState> {
   #router = inject(Router);
-  #store = inject(Store<AppState>);
-  readonly tables$ = this.select((state) => state.tables);
-  readonly answer$ = this.select((state) => state.answer);
-  readonly count$ = this.select((state) => state.count);
-  readonly indicateur$ = this.select((state) => state.indicateur);
-  readonly progressCounter$ = this.select((state) => state.progressCounter);
-  readonly progressTest$ = this.select((state) => state.progressTest);
-  readonly disabledValidate$ = this.select((state) => state.disabledValidate);
+  #store = inject(Store);
+  readonly tables$ = this.select(state => state.tables);
+  readonly answer$ = this.select(state => state.answer);
+  readonly count$ = this.select(state => state.count);
+  readonly indicateur$ = this.select(state => state.indicateur);
+  readonly progressCounter$ = this.select(state => state.progressCounter);
+  readonly progressTest$ = this.select(state => state.progressTest);
+  readonly disabledValidate$ = this.select(state => state.disabledValidate);
 
   constructor() {
     super(initialTableMultiplicationState);
@@ -78,20 +67,12 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
     indicateur,
   }));
 
-  readonly validate: any = this.effect<void>((source$) =>
+  readonly validate: any = this.effect<void>(source$ =>
     source$.pipe(
       withLatestFrom(this.tables$, this.answer$, this.count$),
       tap(() => this.patchState({ disabledValidate: true })),
-      tap(([_, tables, answer, count]) =>
-        this.#store.dispatch(
-          tableChanges({ table: { ...tables[count], answer: +answer } })
-        )
-      ),
-      tap(([_, tables, answer, count]) =>
-        this.updateIndicateur(
-          tables[count]?.result === +answer ? indicateurValid : indicateurError
-        )
-      ),
+      tap(([_, tables, answer, count]) => this.#store.dispatch(tableChanges({ table: { ...tables[count], answer: +answer } }))),
+      tap(([_, tables, answer, count]) => this.updateIndicateur(tables[count]?.result === +answer ? indicateurValid : indicateurError)),
       debounceTime(2000),
       tap(([_, tables]) =>
         this.patchState(({ progressTest }) => ({
@@ -109,7 +90,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
     )
   );
 
-  readonly progress = this.effect<void>((source$) =>
+  readonly progress = this.effect<void>(source$ =>
     source$.pipe(
       switchMap(() =>
         interval(25).pipe(
@@ -118,7 +99,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
               progressCounter: progressCounter - 0.5,
             }))
           ),
-          filter((interval) => interval === 200),
+          filter(interval => interval === 200),
           tap(() => this.validate())
         )
       ),
@@ -127,7 +108,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
     )
   );
 
-  readonly navigate = this.effect<void>((source$) =>
+  readonly navigate = this.effect<void>(source$ =>
     source$.pipe(
       switchMap(() =>
         combineLatest([this.tables$, this.count$]).pipe(

@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'ui-main',
   standalone: true,
-  imports: [CommonModule],
-  template: `<ng-content></ng-content>`,
+  imports: [],
+  template: `
+    <ng-content></ng-content>
+  `,
   styles: [
     `
       :host {

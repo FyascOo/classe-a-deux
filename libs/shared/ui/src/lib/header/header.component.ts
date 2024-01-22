@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,7 +5,7 @@ import { Router } from '@angular/router';
   selector: 'ui-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <header class="flex w-full items-center justify-between bg-white py-2 shadow-lg">
       <img (click)="home()" class="h-12 w-12" src="assets/favicon.png" alt="Classe-a-deux" />

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonComponent, ContainerComponent, InputComponent } from '@classe-a-deux/shared-ui';
 import { Multiplication, nomChanges, selectNom, selectTables } from '@classe-a-deux/test';
@@ -9,9 +9,10 @@ import { combineLatest, map, take } from 'rxjs';
 @Component({
   selector: 'classe-a-deux-result',
   standalone: true,
-  imports: [CommonModule, ContainerComponent, ButtonComponent, InputComponent],
+  imports: [NgIf, AsyncPipe, NgClass, NgFor, ContainerComponent, ButtonComponent, InputComponent],
   template: `
-    <ui-container *ngIf="tables$ | async as tables">
+    @if(tables$ | async; as tables) {
+    <ui-container>
       <div class="flex items-center mb-5">
         <ui-input (valueChanges)="nomChanges($event)">Nom - Prénom</ui-input>
         <ui-button (action)="save()">
@@ -81,18 +82,8 @@ import { combineLatest, map, take } from 'rxjs';
         </div>
       </div>
     </ui-container>
+    }
   `,
-  styles: [
-    `
-      .flex-1 {
-        flex: 1;
-      }
-
-      .mb-2 {
-        margin-bottom: 1rem;
-      }
-    `,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultComponent {

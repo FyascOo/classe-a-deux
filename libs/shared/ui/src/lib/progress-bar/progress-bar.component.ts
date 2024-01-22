@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ui-progress-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="w-full bg-gray-200 rounded-full h-2.5">
       <div [class]="getColor()" [style]="{ width: progress + '%' }"></div>
