@@ -2,9 +2,19 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { combineLatest, debounceTime, filter, interval, repeat, switchMap, take, tap, withLatestFrom } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  filter,
+  interval,
+  repeat,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { Multiplication, TABLES } from './test.constante';
-import { tableChanges } from './test.store';
+import { selectTime, tableChanges } from './test.store';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];
@@ -71,8 +81,16 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
     source$.pipe(
       withLatestFrom(this.tables$, this.answer$, this.count$),
       tap(() => this.patchState({ disabledValidate: true })),
-      tap(([_, tables, answer, count]) => this.#store.dispatch(tableChanges({ table: { ...tables[count], answer: +answer } }))),
-      tap(([_, tables, answer, count]) => this.updateIndicateur(tables[count]?.result === +answer ? indicateurValid : indicateurError)),
+      tap(([_, tables, answer, count]) =>
+        this.#store.dispatch(
+          tableChanges({ table: { ...tables[count], answer: +answer } })
+        )
+      ),
+      tap(([_, tables, answer, count]) =>
+        this.updateIndicateur(
+          tables[count]?.result === +answer ? indicateurValid : indicateurError
+        )
+      ),
       debounceTime(2000),
       tap(([_, tables]) =>
         this.patchState(({ progressTest }) => ({
@@ -93,13 +111,13 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
   readonly progress = this.effect<void>(source$ =>
     source$.pipe(
       switchMap(() =>
-        interval(25).pipe(
-          tap(() =>
+        combineLatest([this.#store.select(selectTime), interval(25)]).pipe(
+          tap(([time]) =>
             this.patchState(({ progressCounter }) => ({
-              progressCounter: progressCounter - 0.5,
+              progressCounter: progressCounter - 0.5 * (5 / time),
             }))
           ),
-          filter(interval => interval === 200),
+          filter(([time, interval]) => interval === 200 * (time / 5)),
           tap(() => this.validate())
         )
       ),
