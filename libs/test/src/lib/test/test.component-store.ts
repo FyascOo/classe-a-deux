@@ -5,16 +5,18 @@ import { Store } from '@ngrx/store';
 import {
   combineLatest,
   debounceTime,
+  exhaustMap,
   filter,
   interval,
+  map,
   repeat,
   switchMap,
   take,
   tap,
   withLatestFrom,
 } from 'rxjs';
-import { Multiplication, TABLES } from './test.constante';
-import { selectTime, tableChanges } from './test.store';
+import { Multiplication, shuffle } from './test.constante';
+import { selectTables, selectTime, tableChanges } from './test.store';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];
@@ -45,7 +47,7 @@ export const indicateurWaiting: Indicateur = {
 };
 
 export const initialTableMultiplicationState: TableMultiplicationState = {
-  tables: TABLES,
+  tables: [],
   answer: '',
   count: 0,
   indicateur: indicateurWaiting,
@@ -68,6 +70,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
 
   constructor() {
     super(initialTableMultiplicationState);
+    this.initTable();
     this.progress();
     this.navigate();
   }
@@ -76,6 +79,23 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
     ...state,
     indicateur,
   }));
+
+  updateTables = this.updater((state, table: Multiplication[]) => ({
+    ...state,
+    tables: shuffle(table),
+  }));
+
+  readonly initTable = this.effect<void>(source$ =>
+    source$.pipe(
+      exhaustMap(() =>
+        this.#store.select(selectTables).pipe(
+          map(table => shuffle([...table])),
+          tap(tables => this.patchState(() => ({ tables }))),
+          take(1)
+        )
+      )
+    )
+  );
 
   readonly validate: any = this.effect<void>(source$ =>
     source$.pipe(
@@ -131,6 +151,7 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
       switchMap(() =>
         combineLatest([this.tables$, this.count$]).pipe(
           tap(([tables, count]) => {
+            if (tables.length === 0) return;
             if (tables.length === count) {
               this.#router.navigate(['result']);
             }

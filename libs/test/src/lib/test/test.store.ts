@@ -2,19 +2,22 @@ import {
   createActionGroup,
   createFeature,
   createReducer,
+  emptyProps,
   on,
   props,
 } from '@ngrx/store';
-import { Multiplication, TABLES } from './test.constante';
+import { LIST_TABLE, Multiplication } from './test.constante';
 
 export interface TableMultiplicationState {
   tables: Multiplication[];
+  selectedTable: number[];
   nom: string;
   time: number;
 }
 
 export const init: TableMultiplicationState = {
-  tables: [...TABLES],
+  tables: [],
+  selectedTable: [],
   nom: '',
   time: 5,
 };
@@ -22,18 +25,48 @@ export const init: TableMultiplicationState = {
 const testActions = createActionGroup({
   source: 'Test Action',
   events: {
+    'Add Table': props<{ table: number }>(),
+    'Clear Table': emptyProps(),
+    'Add Selected Table': props<{ selectedTable: number }>(),
+    'Remove Selected Table': props<{ selectedTable: number }>(),
     'Table Changes': props<{ table: Multiplication }>(),
     'Nom changes': props<{ nom: string }>(),
     'Update time': props<{ time: number }>(),
   },
 });
 
-export const { tableChanges, nomChanges, updateTime } = testActions;
+export const {
+  addTable,
+  clearTable,
+  addSelectedTable,
+  removeSelectedTable,
+  tableChanges,
+  nomChanges,
+  updateTime,
+} = testActions;
 
 export const testFeature = createFeature({
   name: 'Test Feature',
   reducer: createReducer(
     init,
+    on(addTable, (state, { table }) => ({
+      ...state,
+      tables: [...state.tables, ...LIST_TABLE[table - 1]],
+    })),
+    on(clearTable, state => ({
+      ...state,
+      tables: [],
+    })),
+    on(addSelectedTable, (state, { selectedTable }) => ({
+      ...state,
+      selectedTable: !state.selectedTable.includes(selectedTable)
+        ? [...state.selectedTable, selectedTable]
+        : [...state.selectedTable],
+    })),
+    on(removeSelectedTable, (state, { selectedTable }) => ({
+      ...state,
+      selectedTable: state.selectedTable.filter(v => v !== selectedTable),
+    })),
     on(tableChanges, (state, { table }) => ({
       ...state,
       tables: state.tables.map(t =>
@@ -48,4 +81,5 @@ export const testFeature = createFeature({
   ),
 });
 
-export const { selectTables, selectNom, selectTime } = testFeature;
+export const { selectTables, selectSelectedTable, selectNom, selectTime } =
+  testFeature;

@@ -626,18 +626,20 @@ export const TABLE10: Multiplication[] = [
   },
 ];
 
-export const TABLES = shuffle([
-  ...TABLE2,
-  ...TABLE3,
-  ...TABLE4,
-  ...TABLE5,
-  ...TABLE6,
-  ...TABLE7,
-  ...TABLE8,
-  ...TABLE9,
-]);
+export const LIST_TABLE = [
+  TABLE1,
+  TABLE2,
+  TABLE3,
+  TABLE4,
+  TABLE5,
+  TABLE6,
+  TABLE7,
+  TABLE8,
+  TABLE9,
+  TABLE10,
+];
 
-function shuffle(array: Multiplication[]) {
+export function shuffle(array: Multiplication[]) {
   let currentIndex = array.length;
   let randomIndex;
 
