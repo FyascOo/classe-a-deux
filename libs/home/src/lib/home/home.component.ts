@@ -35,26 +35,41 @@ import { map } from 'rxjs';
   template: `
     <ui-container>
       <p>Nous allons tester tes connaissances des tables de multiplication</p>
-      <p>Tu auras 5 secondes par calcul.</p>
+      <p>Tu auras {{ time$ | async }} secondes par calcul.</p>
       <p>A la fin, télécharge ou imprime le tableau récapitulatif</p>
       <br />
       <ui-button (action)="navigate()">Commencer le test</ui-button>
     </ui-container>
 
     <ui-container>
-      <h2>Paramètres</h2>
-      <ui-input
-        [reset]="(time$ | async)!"
-        (valueChanges)="updateTime($event)"></ui-input>
-      <div class="flex">
-        @if(selectedTable$ | async; as select) { @for (selectedTable of
-        [1,2,3,4,5,6,7,8,9,10]; track $index) {
-        <ui-checkbox
-          [check]="select.includes(selectedTable)"
-          (action)="checked($event, selectedTable)">
-          Table {{ selectedTable }}
-        </ui-checkbox>
-        } }
+      <h2 class="w-full italic">Paramètres</h2>
+      <div class="flex justify-around items-center w-full m-5">
+        <span class="m-3">Nombre de secondes</span>
+        <ui-input
+          [reset]="(time$ | async)!"
+          (valueChanges)="updateTime($event)"></ui-input>
+      </div>
+      <div class="flex justify-around w-full">
+        <div class="flex-col">
+          @if(selectedTable$ | async; as select) { @for (selectedTable of
+          [1,2,3,4,5]; track $index) {
+          <ui-checkbox
+            [check]="select.includes(selectedTable)"
+            (action)="checked($event, selectedTable)">
+            Table {{ selectedTable }}
+          </ui-checkbox>
+          } }
+        </div>
+        <div class="flex-col">
+          @if(selectedTable$ | async; as select) { @for (selectedTable of
+          [6,7,8,9,10]; track $index) {
+          <ui-checkbox
+            [check]="select.includes(selectedTable)"
+            (action)="checked($event, selectedTable)">
+            Table {{ selectedTable }}
+          </ui-checkbox>
+          } }
+        </div>
       </div>
     </ui-container>
   `,
