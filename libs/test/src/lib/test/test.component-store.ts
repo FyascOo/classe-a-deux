@@ -80,20 +80,15 @@ export class TableMultiplicationComponentStore extends ComponentStore<TableMulti
     indicateur,
   }));
 
-  updateTables = this.updater((state, table: Multiplication[]) => ({
-    ...state,
-    tables: shuffle(table),
-  }));
-
   readonly initTable = this.effect<void>(source$ =>
     source$.pipe(
       exhaustMap(() =>
         this.#store.select(selectTables).pipe(
-          map(table => shuffle([...table])),
-          tap(tables => this.patchState(() => ({ tables }))),
-          take(1)
+          map(tables => shuffle([...tables])),
+          tap(tables => this.patchState(() => ({ tables })))
         )
-      )
+      ),
+      take(1)
     )
   );
 

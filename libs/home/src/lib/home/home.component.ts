@@ -13,6 +13,7 @@ import {
   InputComponent,
 } from '@classe-a-deux/shared-ui';
 import {
+  LIST_TABLE,
   addSelectedTable,
   removeSelectedTable,
   selectSelectedTable,
